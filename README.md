@@ -1,3 +1,3 @@
 # Flight - planner project
 
-=== created by Martins Akermanis ===
+=== by Martins Akermanis ===
