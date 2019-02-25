@@ -3,32 +3,47 @@ package io.codelex.flightplanner.api;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 public class FindTripRequest {
 
-    private  String from;
-    private  String to;
+    private Airport from;
+    private Airport to;
+    private String carrier;
+    private LocalDate departure;
+    private LocalDate arrival;
 
     @JsonCreator
-    public FindTripRequest(@JsonProperty("from") String from,
-                           @JsonProperty("to")String to) {
+    public FindTripRequest(
+            @JsonProperty("from") Airport from,
+            @JsonProperty("to") Airport to,
+            @JsonProperty("departure") LocalDate departure,
+            @JsonProperty("arrival") LocalDate arrivalTime) {
         this.from = from;
         this.to = to;
+        this.departure = departure;
+        this.arrival = arrivalTime;
+
     }
 
-    public String getFrom() {
+    public Airport getFrom() {
         return from;
     }
 
-    public String getTo() {
+    public Airport getTo() {
         return to;
     }
 
-
-    public void setFrom(String from) {
-        this.from = from;
+    public LocalDate getDeparture() {
+        return departure;
     }
 
-    public void setTo(String to) {
-        this.to = to;
+    public LocalDate getArrival() {
+        return arrival;
+    }
+
+    public String getCarrier() {
+        return carrier;
     }
 }

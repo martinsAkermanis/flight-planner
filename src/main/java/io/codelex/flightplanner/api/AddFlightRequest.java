@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
 
-public class AddTripRequest {
+public class AddFlightRequest {
 
     private final Airport from;
     private final Airport to;
@@ -14,17 +14,17 @@ public class AddTripRequest {
     private final LocalDateTime arrivalTime;
 
     @JsonCreator
-    public AddTripRequest(
+    public AddFlightRequest(
             @JsonProperty("from") Airport from,
-            @JsonProperty("to")Airport to,
-            @JsonProperty("carrier")String carrier,
-            @JsonProperty("departureTime")LocalDateTime departureTime,
-            @JsonProperty("arrivalTime")LocalDateTime arrivalTime) {
+            @JsonProperty("to") Airport to,
+            @JsonProperty("carrier") String carrier,
+            @JsonProperty("departureTime") LocalDateTime departureTime,
+            @JsonProperty("arrivalTime") LocalDateTime arrivalTime) {
         this.from = from;
         this.to = to;
         this.carrier = carrier;
-        this.departureTime = departureTime;
-        this.arrivalTime = arrivalTime;
+        this.departureTime = LocalDateTime.now();
+        this.arrivalTime = LocalDateTime.now().plusHours(1);
     }
 
     public Airport getFrom() {

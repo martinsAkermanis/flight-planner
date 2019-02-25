@@ -1,15 +1,12 @@
 package io.codelex.flightplanner;
 
-import io.codelex.flightplanner.api.Airport;
 import io.codelex.flightplanner.api.FindTripRequest;
-import io.codelex.flightplanner.api.Trip;
+import io.codelex.flightplanner.api.Flight;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -17,34 +14,35 @@ import java.util.List;
 class PublicTripsController {
 
     @Autowired
-    private TripService tripService = new TripService();
+    private FlightService service = new FlightService();
 
     @GetMapping("/flights/search")
-    public List<Trip> search(String from, String to) {
-        return tripService.findAll();
+    public ResponseEntity<List<Flight>> search(@RequestParam("from") String from, @RequestParam("to") String to) {
+        List<Flight> fromTo = service.findFromTo(from, to);
+        if (fromTo.isEmpty()){
+            return new ResponseEntity("No flights found", HttpStatus.OK);
+        }
+        return new ResponseEntity<>(fromTo, HttpStatus.OK);
     }
 
     @PostMapping("/flights")
-    public ResponseEntity<List<Trip>> findTrip(@RequestBody FindTripRequest request) {
-        System.out.println(request.getFrom());
-        List<Trip> trips = new ArrayList<>();
-
-        Trip trip2 = new Trip(
-                4L,
-                new Airport("Latvia", "Riga", "RIX"),
-                new Airport("Sweden", "Stockholm", "ARN"),
-                "Norwegian", LocalDateTime.now(), LocalDateTime.now().plusHours(1));
-        trips.add(trip2);
-        return new ResponseEntity<>(trips, HttpStatus.NOT_FOUND);
+    public ResponseEntity<List<Flight>> findFlight(@RequestBody FindTripRequest request) {
+        if (request.getTo().equals(request.getFrom())) {
+            return new ResponseEntity("Departure and Arrival cannot be same", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity(service.findFlight(request), HttpStatus.OK);
     }
 
     @GetMapping("/flights/{id}")
-    public ResponseEntity<Trip> findTripById(@PathVariable Long id) {
-        return tripService.findTripById(id)
-                .map(trip -> new ResponseEntity<>(trip,HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<Flight> findFlightById(@PathVariable Long id) {
+        Flight response = service.findFlightById(id);
+        if (response == null) {
+            return new ResponseEntity("No such flight",HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
+
 
 
 
