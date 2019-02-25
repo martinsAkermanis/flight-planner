@@ -2,7 +2,7 @@
 
 <!DOCTYPE suppressions PUBLIC
         "-//Puppy Crawl//DTD Suppressions 1.1//EN"
-        "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
+        "http://checkstyle.sourceforge.net/dtds/configuration_1_3.dtd">
 
 <suppressions>
   <!-- These packages are duplicated in core-api, don't require a package-info.java in each place -->
