@@ -101,14 +101,14 @@ class FlightService {
     private Flight flightFinder(FindTripRequest request) {
         List<Flight> foundFlight = new ArrayList<>();
         for (Flight flight : flights) {
-            /*if (flight.getFrom().equals(request.getFrom())
-                    && flight.getTo().equals(request.getTo())
-                    && flight.getCarrier().equals(request.getCarrier())
-                    && flight.getDepartureTime().toLocalDate().equals(request.getDeparture())
-                    && flight.getArrivalTime().toLocalDate().equals(request.getArrival())) {
-            }*/
-            foundFlight.add(flight);
-            break;
+            if ((flight.getFrom().equals(request.getFrom()))
+                    && (flight.getTo().equals(request.getTo()))
+                    && (flight.getCarrier().equals(request.getCarrier()))
+                    && (flight.getDepartureTime().toLocalDate().equals(request.getDeparture()))
+                    && (flight.getArrivalTime().toLocalDate().equals(request.getArrival()))) {
+                foundFlight.add(flight);
+                break;
+            }
         }
         return foundFlight.get(0);
     }

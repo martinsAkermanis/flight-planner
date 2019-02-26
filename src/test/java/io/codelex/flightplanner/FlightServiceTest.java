@@ -242,7 +242,7 @@ class FlightServiceTest {
 
 
     ////////////////////   Sample flight requests   ////////////////////
-    private AddFlightRequest addRequest(){
+    private AddFlightRequest addRequest() {
         AddFlightRequest request = new AddFlightRequest(
                 new Airport("Latvia", "Riga", "RIX"),
                 new Airport("Sweden", "Stockholm", "ARN"),
@@ -252,7 +252,7 @@ class FlightServiceTest {
         return request;
     }
 
-    private AddFlightRequest addRequest2(){
+    private AddFlightRequest addRequest2() {
         AddFlightRequest request2 = new AddFlightRequest(
                 new Airport("Latvia", "Riga", "RIX"),
                 new Airport("Sweden", "Stockholm", "ARN"),
