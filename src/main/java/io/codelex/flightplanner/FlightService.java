@@ -91,8 +91,9 @@ class FlightService {
                     && flight.getTo().equals(request.getTo())
                     && flight.getCarrier().equals(request.getCarrier())
                     && flight.getDepartureTime().equals(request.getDepartureTime())
-                    && flight.getArrivalTime().equals(request.getArrivalTime()))
+                    && flight.getArrivalTime().equals(request.getArrivalTime())) {
                 return true;
+            }
         }
         return false;
     }
@@ -100,11 +101,12 @@ class FlightService {
     private Flight flightFinder(FindTripRequest request) {
         List<Flight> foundFlight = new ArrayList<>();
         for (Flight flight : flights) {
-            if (flight.getFrom().equals(request.getFrom())
+            /*if (flight.getFrom().equals(request.getFrom())
                     && flight.getTo().equals(request.getTo())
                     && flight.getCarrier().equals(request.getCarrier())
                     && flight.getDepartureTime().toLocalDate().equals(request.getDeparture())
-                    && flight.getArrivalTime().toLocalDate().equals(request.getArrival())) ;
+                    && flight.getArrivalTime().toLocalDate().equals(request.getArrival())) {
+            }*/
             foundFlight.add(flight);
             break;
         }

@@ -16,11 +16,11 @@ class InternalTripsController {
 
     @PutMapping("/flights")
     public ResponseEntity<Flight> addTrip(@RequestBody AddFlightRequest request) {
-        if (request == null){
+        if (request == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }else if ((request.getTo().equals(request.getFrom())
+        } else if ((request.getTo().equals(request.getFrom())
                 || (request.getFrom().getCity().equals(request.getTo().getCity())))
-                || (request.getFrom().getAirport().equals(request.getTo().getAirport()))){
+                || (request.getFrom().getAirport().equals(request.getTo().getAirport()))) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(service.addFlight(request), HttpStatus.CREATED);

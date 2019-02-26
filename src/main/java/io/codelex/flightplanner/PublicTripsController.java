@@ -19,7 +19,7 @@ class PublicTripsController {
     @GetMapping("/flights/search")
     public ResponseEntity<List<Flight>> search(@RequestParam("from") String from, @RequestParam("to") String to) {
         List<Flight> fromTo = service.findFromTo(from, to);
-        if (fromTo.isEmpty()){
+        if (fromTo.isEmpty()) {
             return new ResponseEntity("No flights found", HttpStatus.OK);
         }
         return new ResponseEntity<>(fromTo, HttpStatus.OK);
@@ -37,7 +37,7 @@ class PublicTripsController {
     public ResponseEntity<Flight> findFlightById(@PathVariable Long id) {
         Flight response = service.findFlightById(id);
         if (response == null) {
-            return new ResponseEntity("No such flight",HttpStatus.NOT_FOUND);
+            return new ResponseEntity("No such flight", HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
