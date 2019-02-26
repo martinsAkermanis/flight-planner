@@ -18,10 +18,6 @@ public class Airport {
         this.airport = airport;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
     public String getCity() {
         return city;
     }

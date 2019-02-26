@@ -10,6 +10,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import io.codelex.flightplanner.api.Airport;
 import io.codelex.flightplanner.api.FindTripRequest;
 import io.codelex.flightplanner.api.Flight;
+import org.assertj.core.util.CheckReturnValue;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -103,14 +104,14 @@ class PublicTripsControllerTest {
                 LocalDate.now());
         String jsonRequest = MAPPER.writeValueAsString(request);
 
-        Flight flight = new Flight(
+        /*new Flight(
                 1L,
                 request.getFrom(),
                 request.getTo(),
-                request.getCarrier(),
+                "ScandiAir",
                 request.getDeparture().atStartOfDay(),
                 request.getArrival().atStartOfDay()
-        );
+        );*/
         /*Mockito.lenient()
                 .when(service.findFlight(any()))
                 .thenReturn(Collections.singletonList(flight));*/
@@ -143,14 +144,14 @@ class PublicTripsControllerTest {
                 LocalDate.now());
         String jsonRequest = MAPPER.writeValueAsString(request);
 
-        Flight flight = new Flight(
+      /*  new Flight(
                 1L,
                 request.getFrom(),
                 request.getTo(),
-                request.getCarrier(),
+                "Rynair",
                 request.getDeparture().atStartOfDay(),
                 request.getArrival().atStartOfDay()
-        );
+        );*/
         /*Mockito.lenient()
                 .when(service.findFlight(any()))
                 .thenReturn(Collections.singletonList(flight));*/

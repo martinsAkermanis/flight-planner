@@ -123,7 +123,7 @@ class FlightServiceTest {
         AddFlightRequest request = addRequest();
 
         //when
-        Flight flight = service.addFlight(request);
+        service.addFlight(request);
         List<Flight> flights = service.findFromTo(null, null);
 
         //then

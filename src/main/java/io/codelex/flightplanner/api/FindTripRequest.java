@@ -2,13 +2,13 @@ package io.codelex.flightplanner.api;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.LocalDate;
 
 public class FindTripRequest {
 
     private Airport from;
     private Airport to;
-    private String carrier;
     private LocalDate departure;
     private LocalDate arrival;
 
@@ -41,7 +41,4 @@ public class FindTripRequest {
         return arrival;
     }
 
-    public String getCarrier() {
-        return carrier;
-    }
 }

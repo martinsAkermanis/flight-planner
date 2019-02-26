@@ -8,11 +8,13 @@ import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Component
 class FlightService {
 
-    private Long sequence = 0L;
+    private final AtomicLong id = new AtomicLong(0);
     private final List<Flight> flights = new ArrayList<>();
 
     Flight findFlight(FindTripRequest request) {
@@ -24,8 +26,10 @@ class FlightService {
     }
 
     Flight addFlight(AddFlightRequest request) {
+        long flightId = id.incrementAndGet();
+
         Flight flight = new Flight(
-                sequence++,
+                flightId,
                 request.getFrom(),
                 request.getTo(),
                 request.getCarrier(),
@@ -103,7 +107,6 @@ class FlightService {
         for (Flight flight : flights) {
             if ((flight.getFrom().equals(request.getFrom()))
                     && (flight.getTo().equals(request.getTo()))
-                    && (flight.getCarrier().equals(request.getCarrier()))
                     && (flight.getDepartureTime().toLocalDate().equals(request.getDeparture()))
                     && (flight.getArrivalTime().toLocalDate().equals(request.getArrival()))) {
                 foundFlight.add(flight);
@@ -112,6 +115,7 @@ class FlightService {
         }
         return foundFlight.get(0);
     }
+
 
 }
 

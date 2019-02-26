@@ -15,7 +15,7 @@ public class Flight {
     private LocalDateTime arrivalTime;
 
     @JsonCreator
-    public Flight(@JsonProperty ("id") Long id,
+    public Flight(@JsonProperty ("id") long id,
                   @JsonProperty ("from")Airport from,
                   @JsonProperty ("to") Airport to,
                   @JsonProperty ("carrier") String carrier,
