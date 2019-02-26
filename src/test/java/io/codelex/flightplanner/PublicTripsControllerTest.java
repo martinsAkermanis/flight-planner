@@ -10,7 +10,6 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import io.codelex.flightplanner.api.Airport;
 import io.codelex.flightplanner.api.FindTripRequest;
 import io.codelex.flightplanner.api.Flight;
-import org.assertj.core.util.CheckReturnValue;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
