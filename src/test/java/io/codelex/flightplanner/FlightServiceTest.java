@@ -248,7 +248,7 @@ class FlightServiceTest {
                 new Airport("Sweden", "Stockholm", "ARN"),
                 "Rayanair",
                 LocalDateTime.now(),
-                LocalDateTime.now());
+                LocalDateTime.now().plusHours(1));
         return request;
     }
 

@@ -24,7 +24,7 @@ class FlightService {
         flights.clear();
     }
 
-    Flight addFlight(AddFlightRequest request) {
+    synchronized Flight addFlight(AddFlightRequest request) {
         long flightId = id.incrementAndGet();
 
         Flight flight = new Flight(
@@ -35,8 +35,8 @@ class FlightService {
                 request.getDepartureTime(),
                 request.getArrivalTime()
         );
-        if (isFlightPresent(request)
-                || (request.getArrivalTime().isEqual(request.getDepartureTime()))) {
+        if (isFlightPresent(request)) {
+            //|| (request.getArrivalTime().isEqual(request.getDepartureTime()))) {
             throw new IllegalStateException();
         } else {
             flights.add(flight);
@@ -108,13 +108,10 @@ class FlightService {
         for (Flight flight : flights) {
             if ((flight.getFrom().equals(request.getFrom()))
                     && (flight.getTo().equals(request.getTo()))
-                    /*&& (flight.getDepartureTime().toLocalDate().isEqual(request.getDeparture()))
-                    && (flight.getArrivalTime().toLocalDate().isEqual(request.getArrival())))*/
-                    && flight.getDepartureTime().withHour(0).withMinute(0).withSecond(0).withNano(0).isEqual(request.getDeparture().atStartOfDay())
-                    && flight.getArrivalTime().withHour(0).withMinute(0).withSecond(0).withNano(0).isEqual(request.getArrival().atStartOfDay()))
-                    {
+                    && (flight.getDepartureTime().toLocalDate().isEqual(request.getDeparture()))
+                    && (flight.getArrivalTime().toLocalDate().isEqual(request.getArrival()))) {
                 foundFlight.add(flight);
-               // break;
+                // break;
             }
         }
         return foundFlight;

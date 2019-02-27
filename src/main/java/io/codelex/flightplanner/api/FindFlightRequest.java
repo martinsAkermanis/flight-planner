@@ -25,8 +25,8 @@ public class FindFlightRequest {
     public FindFlightRequest(
             @JsonProperty("from") Airport from,
             @JsonProperty("to") Airport to,
-            @JsonProperty("departure") LocalDate departure,
-            @JsonProperty("arrival") LocalDate arrivalTime) {
+            @JsonProperty("departureTime") LocalDate departure,
+            @JsonProperty("arrivalTime") LocalDate arrivalTime) {
         this.from = from;
         this.to = to;
         this.departure = departure;
