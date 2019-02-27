@@ -102,19 +102,21 @@ class PublicTripsControllerTest {
                 LocalDate.now());
         String jsonRequest = MAPPER.writeValueAsString(request);
 
-        *//*new Flight(
+        */
+    /* new Flight(
                 1L,
                 request.getFrom(),
                 request.getTo(),
                 "ScandiAir",
                 request.getDeparture().atStartOfDay(),
                 request.getArrival().atStartOfDay()
-        );*//*
-        *//*Mockito.lenient()
+        );*/
+        /* Mockito.lenient()
                 .when(service.findFlight(any()))
-                .thenReturn(Collections.singletonList(flight));*//*
+                .thenReturn(Collections.singletonList(flight));*/
 
         //expect
+    /*
         String jsonResponse = mockMvc.perform(
                 post("/api/flights")
                         .content(jsonRequest)
