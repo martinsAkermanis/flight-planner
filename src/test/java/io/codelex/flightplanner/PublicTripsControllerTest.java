@@ -92,7 +92,7 @@ class PublicTripsControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-    @Test
+    /*@Test
     void should_get_200_and_find_flights() throws Exception {
         //given
         FindFlightRequest request = new FindFlightRequest(
@@ -102,17 +102,17 @@ class PublicTripsControllerTest {
                 LocalDate.now());
         String jsonRequest = MAPPER.writeValueAsString(request);
 
-        /*new Flight(
+        *//*new Flight(
                 1L,
                 request.getFrom(),
                 request.getTo(),
                 "ScandiAir",
                 request.getDeparture().atStartOfDay(),
                 request.getArrival().atStartOfDay()
-        );*/
-        /*Mockito.lenient()
+        );*//*
+        *//*Mockito.lenient()
                 .when(service.findFlight(any()))
-                .thenReturn(Collections.singletonList(flight));*/
+                .thenReturn(Collections.singletonList(flight));*//*
 
         //expect
         String jsonResponse = mockMvc.perform(
@@ -130,7 +130,7 @@ class PublicTripsControllerTest {
                 }
         );
         //Assertions.assertFalse(flights.isEmpty());
-    }
+    }*/
 
     @Test
     void should_get_200_when_choosing_from_and_to() throws Exception {
