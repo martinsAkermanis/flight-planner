@@ -1,12 +1,13 @@
 package io.codelex.flightplanner;
 
-import io.codelex.flightplanner.api.FindTripRequest;
+import io.codelex.flightplanner.api.FindFlightRequest;
 import io.codelex.flightplanner.api.Flight;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -17,29 +18,58 @@ class PublicTripsController {
     private FlightService service = new FlightService();
 
     @GetMapping("/flights/search")
-    public ResponseEntity<List<Flight>> search(@RequestParam("from") String from, @RequestParam("to") String to) {
+    public ResponseEntity<List<Flight>> search(@RequestParam(value = "from", required = false) String from, @RequestParam(value = "to", required = false) String to) {
         List<Flight> fromTo = service.findFromTo(from, to);
-        if (fromTo.isEmpty()) {
-            return new ResponseEntity("No flights found", HttpStatus.OK);
+        if (from == null && to == null) {
+            if (fromTo.isEmpty()) {
+                return new ResponseEntity<>(service.getAllFlights(), HttpStatus.OK);
+            }
+            return new ResponseEntity<>(service.getAllFlights(), HttpStatus.OK);
         }
         return new ResponseEntity<>(fromTo, HttpStatus.OK);
     }
 
     @PostMapping("/flights")
-    public ResponseEntity<List<Flight>> findFlight(@RequestBody FindTripRequest request) {
-        if (request.getTo().equals(request.getFrom())) {
-            return new ResponseEntity("Departure and Arrival cannot be same", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<List<Flight>> findFlight(@Valid @RequestBody FindFlightRequest request) {
+        if (isRequestNull(request)) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else if (request.getTo().equals(request.getFrom())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity(service.findFlight(request), HttpStatus.OK);
+        return ResponseEntity.ok(service.flightFinder(request));
     }
 
     @GetMapping("/flights/{id}")
-    public ResponseEntity<Flight> findFlightById(@PathVariable Long id) {
+    public ResponseEntity findFlightById(@PathVariable Long id) {
         Flight response = service.findFlightById(id);
         if (response == null) {
-            return new ResponseEntity("No such flight", HttpStatus.NOT_FOUND);
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /*protected Flight getFlightData(FindFlightRequest request) {
+        return new Flight(
+                service.getFlightId(request),
+                request.getFrom(),
+                request.getTo(),
+                request.getCarrier(),
+                request.getArrival().atStartOfDay(),
+                request.getDeparture().atStartOfDay());
+    }*/
+
+    private boolean isRequestNull(FindFlightRequest request) {
+        if ((request.getFrom() == null || request.getTo() == null)
+                || (request.getFrom().getCountry() == null || request.getFrom().getCity() == null || request.getFrom().getAirport() == null)
+                || (request.getTo().getCountry() == null || request.getTo().getCity() == null || request.getTo().getAirport() == null)
+                || (request.getCarrier() == null) || (request.getCarrier().equals(""))
+                || request.getDeparture() == null
+                || request.getArrival() == null
+                || (request.getFrom().getCountry().equals("") || request.getFrom().getCity().equals("") || request.getFrom().getAirport().equals(""))
+                || (request.getTo().getCountry().equals("") || request.getTo().getCity().equals("") || request.getTo().getAirport().equals(""))) {
+            return true;
+        }
+        return false;
     }
 }
 

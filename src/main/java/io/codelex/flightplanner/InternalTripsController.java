@@ -15,12 +15,15 @@ class InternalTripsController {
     private FlightService service;
 
     @PutMapping("/flights")
-    public ResponseEntity<Flight> addTrip(@RequestBody AddFlightRequest request) {
-        if (request == null) {
+    public ResponseEntity addTrip(@RequestBody AddFlightRequest request) {
+        if (service.isFlightPresent(request)) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        } else if (isRequestNull(request)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } else if ((request.getTo().equals(request.getFrom())
-                || (request.getFrom().getCity().equals(request.getTo().getCity())))
-                || (request.getFrom().getAirport().equals(request.getTo().getAirport()))) {
+        } else if (areValuesSame(request)) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        } else if ((request.getArrivalTime().equals(request.getDepartureTime()))
+                || (request.getArrivalTime().isBefore(request.getDepartureTime()))) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(service.addFlight(request), HttpStatus.CREATED);
@@ -28,18 +31,43 @@ class InternalTripsController {
 
     @DeleteMapping("/flights/{id}")
     public ResponseEntity deleteTripById(@PathVariable("id") Long id) {
+        if (service.findFlightById(id) == null) {
+            return new ResponseEntity<>(service.findFlightById(id), HttpStatus.OK);
+        }
+        service.deleteFlightById(id);
+        return new ResponseEntity<>("Flight deleted successfully", HttpStatus.OK);
+    }
+
+    @GetMapping("/flights/{id}")
+    public ResponseEntity findFlightById(@PathVariable Long id) {
         Flight response = service.findFlightById(id);
         if (response == null) {
-            return new ResponseEntity("No such flight", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
-        service.deleteFlightById(id);
-        return new ResponseEntity("Flight deleted successfully", HttpStatus.OK);
+    private boolean isRequestNull(AddFlightRequest request) {
+        if ((request.getFrom() == null || request.getTo() == null)
+                || (request.getFrom().getCountry() == null || request.getFrom().getCity() == null || request.getFrom().getAirport() == null)
+                || (request.getTo().getCountry() == null || request.getTo().getCity() == null || request.getTo().getAirport() == null)
+                || (request.getCarrier() == null) || (request.getCarrier().equals(""))
+                || request.getDepartureTime() == null
+                || request.getArrivalTime() == null
+                || (request.getFrom().getCountry().equals("") || request.getFrom().getCity().equals("") || request.getFrom().getAirport().equals(""))
+                || (request.getTo().getCountry().equals("") || request.getTo().getCity().equals("") || request.getTo().getAirport().equals(""))) {
+            return true;
+        }
+        return false;
+    }
 
-
-        /*}
-        return new ResponseEntity("No such flight to delete", HttpStatus.BAD_REQUEST);*/
-
+    private boolean areValuesSame(AddFlightRequest request) {
+        if (((request.getTo().equals(request.getFrom())
+                || (request.getFrom().getCity().toLowerCase().equals(request.getTo().getCity().toLowerCase())))
+                || (request.getFrom().getAirport().toLowerCase().equals(request.getTo().getAirport().toLowerCase())))) {
+            return true;
+        }
+        return false;
     }
 
 }

@@ -23,8 +23,8 @@ public class AddFlightRequest {
         this.from = from;
         this.to = to;
         this.carrier = carrier;
-        this.departureTime = LocalDateTime.now();
-        this.arrivalTime = LocalDateTime.now().plusHours(1);
+        this.departureTime = departureTime;
+        this.arrivalTime = arrivalTime;
     }
 
     public Airport getFrom() {
@@ -46,4 +46,6 @@ public class AddFlightRequest {
     public LocalDateTime getArrivalTime() {
         return arrivalTime;
     }
+
+
 }
