@@ -36,7 +36,6 @@ class FlightService {
                 request.getArrivalTime()
         );
         if (isFlightPresent(request)) {
-            //|| (request.getArrivalTime().isEqual(request.getDepartureTime()))) {
             throw new IllegalStateException();
         } else {
             flights.add(flight);
@@ -53,13 +52,8 @@ class FlightService {
         return null;
     }
 
-    void deleteFlightById(Long id) {
-        for (Flight flight : flights) {
-            if (flight.getId() == id) {
-                flights.remove(flight);
-                break;
-            }
-        }
+    synchronized void deleteFlightById(Long id) {
+        flights.removeIf(flight -> flight.getId() == id);
     }
 
     List<Flight> findFromTo(String from, String to) {
@@ -88,11 +82,10 @@ class FlightService {
         return foundTrips;
     }
 
-
-    public boolean isFlightPresent(AddFlightRequest request) {
+    boolean isFlightPresent(AddFlightRequest request) {
         for (Flight flight : flights) {
-            if (flight.getFrom().getAirport().toLowerCase().equals(request.getFrom().getAirport().toLowerCase())
-                    && flight.getTo().getAirport().toLowerCase().equals(request.getTo().getAirport().toLowerCase())
+            if (flight.getFrom().toString().toLowerCase().equals(request.getFrom().toString().toLowerCase())
+                    && flight.getTo().toString().toLowerCase().equals(request.getTo().toString().toLowerCase())
                     && flight.getCarrier().toLowerCase().equals(request.getCarrier().toLowerCase())
                     && flight.getDepartureTime().equals(request.getDepartureTime())
                     && flight.getArrivalTime().equals(request.getArrivalTime())) {
@@ -102,7 +95,7 @@ class FlightService {
         return false;
     }
 
-    public List<Flight> flightFinder(FindFlightRequest request) {
+    public List<Flight> findFlight(FindFlightRequest request) {
         List<Flight> foundFlight = new ArrayList<>();
 
         for (Flight flight : flights) {
@@ -111,24 +104,9 @@ class FlightService {
                     && (flight.getDepartureTime().toLocalDate().isEqual(request.getDeparture()))
                     && (flight.getArrivalTime().toLocalDate().isEqual(request.getArrival()))) {
                 foundFlight.add(flight);
-                // break;
             }
         }
         return foundFlight;
-    }
-
-    public Long getFlightId(FindFlightRequest request) {
-        Long foundFlightId = null;
-        for (Flight flight : flights) {
-            if ((flight.getFrom().equals(request.getFrom()))
-                    && (flight.getTo().equals(request.getTo()))
-                    && (flight.getDepartureTime().toLocalDate().equals(request.getDeparture()))
-                    && (flight.getArrivalTime().toLocalDate().equals(request.getArrival()))) {
-                foundFlightId = flight.getId();
-                break;
-            }
-        }
-        return foundFlightId;
     }
 }
 
