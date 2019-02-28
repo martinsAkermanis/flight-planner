@@ -25,6 +25,9 @@ class FlightService {
     }
 
     synchronized Flight addFlight(AddFlightRequest request) {
+        if (isFlightPresent(request)) {
+            throw new IllegalStateException();
+        }
         Flight flight = new Flight(
                 id.incrementAndGet(),
                 request.getFrom(),
@@ -33,15 +36,11 @@ class FlightService {
                 request.getDepartureTime(),
                 request.getArrivalTime()
         );
-        if (isFlightPresent(request)) {
-            throw new IllegalStateException();
-        } else {
-            flights.add(flight);
-        }
+        flights.add(flight);
         return flight;
     }
 
-    Flight findFlightById(Long id) {
+    synchronized Flight findFlightById(Long id) {
         return flights.stream()
                 .filter(flight -> flight.getId() == id)
                 .findFirst().orElse(null);
@@ -77,7 +76,7 @@ class FlightService {
         return foundTrips;
     }
 
-    boolean isFlightPresent(AddFlightRequest request) {
+    synchronized boolean isFlightPresent(AddFlightRequest request) {
         for (Flight flight : flights) {
             if (flight.getFrom().getAirport().equals(request.getFrom().getAirport())
                     && flight.getTo().getAirport().equals(request.getTo().getAirport())
@@ -90,7 +89,7 @@ class FlightService {
         return false;
     }
 
-    List<Flight> findFlight(FindFlightRequest request) {
+    synchronized List<Flight> findFlight(FindFlightRequest request) {
         List<Flight> foundFlight = new ArrayList<>();
 
         for (Flight flight : flights) {

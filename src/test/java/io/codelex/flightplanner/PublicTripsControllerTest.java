@@ -92,47 +92,6 @@ class PublicTripsControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-    /*@Test
-    void should_get_200_and_find_flights() throws Exception {
-        //given
-        FindFlightRequest request = new FindFlightRequest(
-                new Airport("Latvia", "Riga", "RIX"),
-                new Airport("Sweden", "Stockholm", "ARN"),
-                LocalDate.now(),
-                LocalDate.now());
-        String jsonRequest = MAPPER.writeValueAsString(request);
-
-        */
-    /* new Flight(
-                1L,
-                request.getFrom(),
-                request.getTo(),
-                "ScandiAir",
-                request.getDeparture().atStartOfDay(),
-                request.getArrival().atStartOfDay()
-        );*/
-        /* Mockito.lenient()
-                .when(service.findFlight(any()))
-                .thenReturn(Collections.singletonList(flight));*/
-
-        //expect
-    /*
-        String jsonResponse = mockMvc.perform(
-                post("/api/flights")
-                        .content(jsonRequest)
-                        .contentType(APPLICATION_JSON)
-                        .accept(APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-        MAPPER.readValue(
-                jsonResponse, new TypeReference<List<Flight>>() {
-                }
-        );
-        //Assertions.assertFalse(flights.isEmpty());
-    }*/
 
     @Test
     void should_get_200_when_choosing_from_and_to() throws Exception {
@@ -143,18 +102,6 @@ class PublicTripsControllerTest {
                 LocalDate.now(),
                 LocalDate.now());
         String jsonRequest = MAPPER.writeValueAsString(request);
-
-      /*  new Flight(
-                1L,
-                request.getFrom(),
-                request.getTo(),
-                "Rynair",
-                request.getDeparture().atStartOfDay(),
-                request.getArrival().atStartOfDay()
-        );*/
-        /*Mockito.lenient()
-                .when(service.findFlight(any()))
-                .thenReturn(Collections.singletonList(flight));*/
 
         //expect
         String jsonResponse = mockMvc.perform(
@@ -171,7 +118,6 @@ class PublicTripsControllerTest {
                 jsonResponse, new TypeReference<List<Flight>>() {
                 }
         );
-        //Assertions.assertFalse(flights.isEmpty());
     }
 
     @Test
