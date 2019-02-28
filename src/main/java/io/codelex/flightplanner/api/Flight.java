@@ -33,11 +33,9 @@ public class Flight {
         return id;
     }
 
-
     public Airport getFrom() {
         return from;
     }
-
 
     public Airport getTo() {
         return to;
