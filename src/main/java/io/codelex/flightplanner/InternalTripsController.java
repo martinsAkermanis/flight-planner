@@ -18,12 +18,10 @@ class InternalTripsController {
     public ResponseEntity addTrip(@RequestBody AddFlightRequest request) {
         if (service.isFlightPresent(request)) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
-        } else if (isRequestNull(request)) {
+        } else if (isRequestNull(request) || areValuesSame(request)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } else if (areValuesSame(request)) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        } else if ((request.getArrivalTime().equals(request.getDepartureTime()))
-                || (request.getArrivalTime().isBefore(request.getDepartureTime()))) {
+        } else if (request.getArrivalTime().equals(request.getDepartureTime())
+                || request.getArrivalTime().isBefore(request.getDepartureTime())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(service.addFlight(request), HttpStatus.CREATED);
