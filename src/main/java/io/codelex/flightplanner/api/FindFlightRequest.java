@@ -9,17 +9,8 @@ public class FindFlightRequest {
 
     private Airport from;
     private Airport to;
-    private String carrier;
     private LocalDate departure;
     private LocalDate arrival;
-
-    public FindFlightRequest(Airport from, Airport to, String carrier, LocalDate departure, LocalDate arrival) {
-        this.from = from;
-        this.to = to;
-        this.carrier = carrier;
-        this.departure = departure;
-        this.arrival = arrival;
-    }
 
     @JsonCreator
     public FindFlightRequest(
@@ -32,10 +23,6 @@ public class FindFlightRequest {
         this.departure = departure;
         this.arrival = arrivalTime;
 
-    }
-
-    public String getCarrier() {
-        return carrier;
     }
 
     public Airport getFrom() {

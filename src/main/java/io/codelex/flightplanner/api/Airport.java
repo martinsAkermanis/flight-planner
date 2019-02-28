@@ -44,4 +44,9 @@ public class Airport {
     public int hashCode() {
         return airport.hashCode();
     }
+
+    @Override
+    public String toString() {
+        return airport.toLowerCase();
+    }
 }

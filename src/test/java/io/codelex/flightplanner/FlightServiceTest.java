@@ -242,6 +242,7 @@ class FlightServiceTest {
 
 
     ////////////////////   Sample flight requests   ////////////////////
+
     private AddFlightRequest addRequest() {
         AddFlightRequest request = new AddFlightRequest(
                 new Airport("Latvia", "Riga", "RIX"),

@@ -51,10 +51,14 @@ class InternalTripsController {
         if ((request.getFrom() == null || request.getTo() == null)) {
             return true;
         }
-        if ((request.getFrom().getCountry() == null || request.getFrom().getCity() == null || request.getFrom().getAirport() == null)) {
+        if ((request.getFrom().getCountry() == null
+                || request.getFrom().getCity() == null
+                || request.getFrom().getAirport() == null)) {
             return true;
         }
-        if ((request.getTo().getCountry() == null || request.getTo().getCity() == null || request.getTo().getAirport() == null)) {
+        if ((request.getTo().getCountry() == null
+                || request.getTo().getCity() == null
+                || request.getTo().getAirport() == null)) {
             return true;
         }
         if ((request.getCarrier() == null) || (request.getCarrier().equals(""))) {
@@ -63,13 +67,14 @@ class InternalTripsController {
         if (request.getDepartureTime() == null || request.getArrivalTime() == null) {
             return true;
         }
-        if ((request.getFrom().getCountry().equals("") || request.getFrom().getCity().equals("") || request.getFrom().getAirport().equals(""))) {
+        if ((request.getFrom().getCountry().equals("")
+                || request.getFrom().getCity().equals("")
+                || request.getFrom().getAirport().equals(""))) {
             return true;
         }
-        if ((request.getTo().getCountry().equals("") || request.getTo().getCity().equals("") || request.getTo().getAirport().equals(""))) {
-            return true;
-        }
-        return false;
+        return (request.getTo().getCountry().equals("")
+                || request.getTo().getCity().equals("")
+                || request.getTo().getAirport().equals(""));
     }
 
     private boolean areValuesSame(AddFlightRequest request) {

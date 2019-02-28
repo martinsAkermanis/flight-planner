@@ -25,10 +25,8 @@ class FlightService {
     }
 
     synchronized Flight addFlight(AddFlightRequest request) {
-        long flightId = id.incrementAndGet();
-
         Flight flight = new Flight(
-                flightId,
+                id.incrementAndGet(),
                 request.getFrom(),
                 request.getTo(),
                 request.getCarrier(),
@@ -43,13 +41,10 @@ class FlightService {
         return flight;
     }
 
-    public Flight findFlightById(Long id) {
-        for (Flight flight : flights) {
-            if (flight.getId() == id) {
-                return flight;
-            }
-        }
-        return null;
+    Flight findFlightById(Long id) {
+        return flights.stream()
+                .filter(flight -> flight.getId() == id)
+                .findFirst().orElse(null);
     }
 
     synchronized void deleteFlightById(Long id) {
@@ -60,7 +55,7 @@ class FlightService {
         List<Flight> foundTrips = new ArrayList<>();
         if ((from == null) || (to == null)) {
             return foundTrips;
-        } else if (((from.isEmpty()) && (to.isEmpty()))) {
+        } else if (from.isEmpty() && to.isEmpty()) {
             return foundTrips;
         }
 
@@ -84,8 +79,8 @@ class FlightService {
 
     boolean isFlightPresent(AddFlightRequest request) {
         for (Flight flight : flights) {
-            if (flight.getFrom().toString().toLowerCase().equals(request.getFrom().toString().toLowerCase())
-                    && flight.getTo().toString().toLowerCase().equals(request.getTo().toString().toLowerCase())
+            if (flight.getFrom().getAirport().equals(request.getFrom().getAirport())
+                    && flight.getTo().getAirport().equals(request.getTo().getAirport())
                     && flight.getCarrier().toLowerCase().equals(request.getCarrier().toLowerCase())
                     && flight.getDepartureTime().equals(request.getDepartureTime())
                     && flight.getArrivalTime().equals(request.getArrivalTime())) {
@@ -95,14 +90,14 @@ class FlightService {
         return false;
     }
 
-    public List<Flight> findFlight(FindFlightRequest request) {
+    List<Flight> findFlight(FindFlightRequest request) {
         List<Flight> foundFlight = new ArrayList<>();
 
         for (Flight flight : flights) {
-            if ((flight.getFrom().equals(request.getFrom()))
-                    && (flight.getTo().equals(request.getTo()))
-                    && (flight.getDepartureTime().toLocalDate().isEqual(request.getDeparture()))
-                    && (flight.getArrivalTime().toLocalDate().isEqual(request.getArrival()))) {
+            if (flight.getFrom().equals(request.getFrom())
+                    && flight.getTo().equals(request.getTo())
+                    && flight.getDepartureTime().toLocalDate().isEqual(request.getDeparture())
+                    && flight.getArrivalTime().toLocalDate().isEqual(request.getArrival())) {
                 foundFlight.add(flight);
             }
         }
