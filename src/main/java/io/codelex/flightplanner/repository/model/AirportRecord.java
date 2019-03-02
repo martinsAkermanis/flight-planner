@@ -15,7 +15,7 @@ public class AirportRecord {
     public AirportRecord() {
     }
 
-    public AirportRecord(String airport, String country, String city) {
+    public AirportRecord(String airport, String city, String country) {
         this.airport = airport;
         this.country = country;
         this.city = city;

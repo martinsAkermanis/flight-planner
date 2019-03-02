@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -58,7 +59,7 @@ class InMemoryFlightServiceTest {
 
         //when
         Flight flight = service.addFlight(request);
-        Flight result = service.findFlightById(flight.getId());
+        Optional<Flight> result = service.findFlightById(flight.getId());
 
         //then
         assertNotNull(result);
@@ -91,11 +92,11 @@ class InMemoryFlightServiceTest {
         AddFlightRequest request = addRequest();
 
         //when
-        Flight flight = service.addFlight(request);
-        service.deleteFlightById(flight.getId());
+        Optional<Flight> flight = Optional.ofNullable(service.addFlight(request));
+        service.deleteFlightById(flight.get().getId());
 
         //then
-        flight = service.findFlightById(flight.getId());
+        flight = service.findFlightById(flight.get().getId());
         assertNull(flight);
     }
 
@@ -106,13 +107,13 @@ class InMemoryFlightServiceTest {
         AddFlightRequest request2 = addRequest2();
 
         //when
-        Flight flight1 = service.addFlight(request1);
-        Flight flight2 = service.addFlight(request2);
+        Optional<Flight> flight1 = Optional.ofNullable(service.addFlight(request1));
+        Optional<Flight> flight2 = Optional.ofNullable(service.addFlight(request2));
         service.clearAllFlights();
 
         //then
-        flight1 = service.findFlightById(flight1.getId());
-        flight2 = service.findFlightById(flight2.getId());
+        flight1 = service.findFlightById(flight1.get().getId());
+        flight2 = service.findFlightById(flight2.get().getId());
         assertNull(flight1);
         assertNull(flight2);
     }
