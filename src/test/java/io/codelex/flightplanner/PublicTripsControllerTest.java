@@ -10,6 +10,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import io.codelex.flightplanner.api.Airport;
 import io.codelex.flightplanner.api.FindFlightRequest;
 import io.codelex.flightplanner.api.Flight;
+import io.codelex.flightplanner.inmemory.InMemoryFlightService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +71,7 @@ class PublicTripsControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private FlightService service;
+    private InMemoryFlightService service;
 
     @Test
     void should_get_400_when_from_and_to_are_equal() throws Exception {
