@@ -4,16 +4,18 @@ import io.codelex.flightplanner.FlightService;
 import io.codelex.flightplanner.api.AddFlightRequest;
 import io.codelex.flightplanner.api.FindFlightRequest;
 import io.codelex.flightplanner.api.Flight;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Component
-public
-class InMemoryFlightService implements FlightService {
+@ConditionalOnProperty(prefix = "flight-planner", name = "store-type", havingValue = "in-memory")
+public class InMemoryFlightService implements FlightService {
 
     private final AtomicLong id = new AtomicLong(0);
     private final List<Flight> flights = new ArrayList<>();
@@ -46,10 +48,10 @@ class InMemoryFlightService implements FlightService {
     }
 
     @Override
-    public synchronized Flight findFlightById(Long id) {
-        return flights.stream()
+    public synchronized Optional<Flight> findFlightById(Long id) {
+        return Optional.ofNullable(flights.stream()
                 .filter(flight -> flight.getId() == id)
-                .findFirst().orElse(null);
+                .findFirst().orElse(null));
     }
 
     @Override

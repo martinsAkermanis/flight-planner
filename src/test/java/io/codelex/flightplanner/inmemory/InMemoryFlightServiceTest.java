@@ -3,7 +3,6 @@ package io.codelex.flightplanner.inmemory;
 import io.codelex.flightplanner.api.AddFlightRequest;
 import io.codelex.flightplanner.api.Airport;
 import io.codelex.flightplanner.api.Flight;
-import io.codelex.flightplanner.inmemory.InMemoryFlightService;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;

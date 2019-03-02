@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/internal-api")
 class InternalTripsController {
@@ -40,7 +42,7 @@ class InternalTripsController {
     }
 
     static ResponseEntity getResponseEntity(@PathVariable Long id, FlightService service) {
-        Flight response = service.findFlightById(id);
+        Optional<Flight> response = service.findFlightById(id);
         if (response == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }

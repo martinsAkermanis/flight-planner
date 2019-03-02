@@ -3,7 +3,6 @@ package io.codelex.flightplanner;
 import io.codelex.flightplanner.api.Airport;
 import io.codelex.flightplanner.api.FindFlightRequest;
 import io.codelex.flightplanner.api.Flight;
-import io.codelex.flightplanner.inmemory.InMemoryFlightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +18,7 @@ import static io.codelex.flightplanner.InternalTripsController.getResponseEntity
 class PublicTripsController {
 
     @Autowired
-    private FlightService service = new InMemoryFlightService();
+    private FlightService service;
 
     @GetMapping("/flights/search")
     public ResponseEntity<List<Flight>> search(@RequestParam(value = "from", required = false) String from,
