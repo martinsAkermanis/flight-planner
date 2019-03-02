@@ -78,12 +78,9 @@ class InternalTripsController {
     }
 
     private boolean areValuesSame(AddFlightRequest request) {
-        if (((request.getTo().equals(request.getFrom())
+        return ((request.getTo().equals(request.getFrom())
                 || (request.getFrom().getCity().toLowerCase().equals(request.getTo().getCity().toLowerCase())))
-                || (request.getFrom().getAirport().toLowerCase().equals(request.getTo().getAirport().toLowerCase())))) {
-            return true;
-        }
-        return false;
+                || (request.getFrom().getAirport().toLowerCase().equals(request.getTo().getAirport().toLowerCase())));
     }
 
 }
