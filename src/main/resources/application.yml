@@ -6,5 +6,5 @@ spring:
   jpa:
     generate-ddl: true
 
-  flight-planner:
-    store-type: database
+flight-planner:
+  store-type: database

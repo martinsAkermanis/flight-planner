@@ -1,6 +1,6 @@
 package io.codelex.flightplanner;
 
-import io.codelex.flightplanner.repository.AirportRepordRepository;
+import io.codelex.flightplanner.repository.AirportRecordRepository;
 import io.codelex.flightplanner.repository.FlightRecordRepository;
 import io.codelex.flightplanner.repository.model.AirportRecord;
 import io.codelex.flightplanner.repository.model.FlightRecord;
@@ -23,13 +23,13 @@ public class FlightRecordRepositoryTest {
     FlightRecordRepository repository;
 
     @Autowired
-    AirportRepordRepository airportRepordRepository;
+    AirportRecordRepository airportRecordRepository;
 
     @Test
     void search_should_not_return_any_results_when_nothing_matched() {
         //given
-        AirportRecord RIX = airportRepordRepository.save(new AirportRecord("RIX", "Riga", "LV"));
-        AirportRecord DXB = airportRepordRepository.save(new AirportRecord("DXB", "Dubai", "UAE"));
+        AirportRecord RIX = airportRecordRepository.save(new AirportRecord("RIX", "Riga", "LV"));
+        AirportRecord DXB = airportRecordRepository.save(new AirportRecord("DXB", "Dubai", "UAE"));
 
 
         FlightRecord flight = new FlightRecord();
@@ -50,8 +50,8 @@ public class FlightRecordRepositoryTest {
     @Test
     void search_should_return_flight_when_matched() {
         //given
-        AirportRecord RIX = airportRepordRepository.save(new AirportRecord("RIX", "Riga", "LV"));
-        AirportRecord DXB = airportRepordRepository.save(new AirportRecord("DXB", "Dubai", "UAE"));
+        AirportRecord RIX = airportRecordRepository.save(new AirportRecord("RIX", "Riga", "LV"));
+        AirportRecord DXB = airportRecordRepository.save(new AirportRecord("DXB", "Dubai", "UAE"));
 
 
         FlightRecord flight = new FlightRecord();
@@ -72,8 +72,8 @@ public class FlightRecordRepositoryTest {
     @Test
     void search_should_return_flight_by_city() {
         //given
-        AirportRecord RIX = airportRepordRepository.save(new AirportRecord("RIX", "Riga", "LV"));
-        AirportRecord DXB = airportRepordRepository.save(new AirportRecord("DXB", "Dubai", "UAE"));
+        AirportRecord RIX = airportRecordRepository.save(new AirportRecord("RIX", "Riga", "LV"));
+        AirportRecord DXB = airportRecordRepository.save(new AirportRecord("DXB", "Dubai", "UAE"));
 
 
         FlightRecord flight = new FlightRecord();
@@ -94,8 +94,8 @@ public class FlightRecordRepositoryTest {
     @Test
     void search_should_return_flight_by_country() {
         //given
-        AirportRecord RIX = airportRepordRepository.save(new AirportRecord("RIX", "Riga", "LV"));
-        AirportRecord DXB = airportRepordRepository.save(new AirportRecord("DXB", "Dubai", "UAE"));
+        AirportRecord RIX = airportRecordRepository.save(new AirportRecord("RIX", "Riga", "LV"));
+        AirportRecord DXB = airportRecordRepository.save(new AirportRecord("DXB", "Dubai", "UAE"));
 
 
         FlightRecord flight = new FlightRecord();

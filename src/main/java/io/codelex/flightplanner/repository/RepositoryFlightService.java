@@ -19,13 +19,13 @@ import java.util.stream.Collectors;
 @ConditionalOnProperty(prefix = "flight-planner", name = "store-type", havingValue = "database")
 public class RepositoryFlightService implements FlightService {
     private final FlightRecordRepository flightRecordRepository;
-    private final AirportRepordRepository airportRepordRepository;
+    private final AirportRecordRepository airportRecordRepository;
     private final MapFlightRecordToFlight toFlight = new MapFlightRecordToFlight();
 
     public RepositoryFlightService(FlightRecordRepository flightRecordRepository,
-                                   AirportRepordRepository airportRepordRepository) {
+                                   AirportRecordRepository airportRecordRepository) {
         this.flightRecordRepository = flightRecordRepository;
-        this.airportRepordRepository = airportRepordRepository;
+        this.airportRecordRepository = airportRecordRepository;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class RepositoryFlightService implements FlightService {
     public List<Flight> search(String from, String to) {
 
         return flightRecordRepository.searchFlights(from, to)
-        .stream()
+                .stream()
                 .map(flightRecord -> toFlight.apply(flightRecord))
                 .collect(Collectors.toList());
 
@@ -77,6 +77,7 @@ public class RepositoryFlightService implements FlightService {
     @Override
     public List<Flight> getAllFlights() {
         new ArrayList<>(flightRecordRepository.findAll());
+        return null;
     }
 
     @Override
@@ -85,14 +86,14 @@ public class RepositoryFlightService implements FlightService {
     }
 
     private AirportRecord createOrGetAirport(Airport airport) {
-        return airportRepordRepository.findById(airport.getAirport())
+        return airportRecordRepository.findById(airport.getAirport())
                 .orElseGet(() -> {
                     AirportRecord created = new AirportRecord(
                             airport.getAirport(),
                             airport.getCity(),
                             airport.getCountry()
                     );
-                    return airportRepordRepository.save(created);
+                    return airportRecordRepository.save(created);
                 });
     }
 
