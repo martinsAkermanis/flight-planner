@@ -9,13 +9,12 @@ import java.util.List;
 
 public interface FlightRecordRepository extends JpaRepository<FlightRecord, Long> {
 
-    @Query("select flight from FlightRecord flight where " +
+   @Query("select flight from FlightRecord flight where " +
             " lower(flight.from.airport) like lower(concat('%', :from, '%'))" +
             " or lower(flight.to.airport) like lower(concat('%', :to, '%'))" +
             " or lower(flight.from.city) like lower(concat('%', :from, '%'))" +
             " or lower(flight.to.city) like lower(concat('%', :to, '%'))" +
             " or lower(flight.to.country) like lower(concat('%', :from, '%'))" +
             " or lower(flight.to.country) like lower(concat('%', :to, '%'))")
-
     List<FlightRecord> searchFlights(@Param("from") String from, @Param("to") String to);
 }
