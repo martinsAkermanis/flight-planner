@@ -3,6 +3,7 @@ package io.codelex.flightplanner;
 import io.codelex.flightplanner.api.AddFlightRequest;
 import io.codelex.flightplanner.api.Flight;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.util.Optional;
 @RequestMapping("/internal-api")
 class InternalTripsController {
 
+
     @Autowired
     private FlightService service;
 
@@ -20,11 +22,9 @@ class InternalTripsController {
     public ResponseEntity addTrip(@RequestBody AddFlightRequest request) {
         if (service.isFlightPresent(request)) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-        else if (isRequestNull(request) || areValuesSame(request)) {
+        } else if (isRequestNull(request) || areValuesSame(request)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        else if (request.getArrivalTime().equals(request.getDepartureTime())
+        } else if (request.getArrivalTime().equals(request.getDepartureTime())
                 || request.getArrivalTime().isBefore(request.getDepartureTime())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

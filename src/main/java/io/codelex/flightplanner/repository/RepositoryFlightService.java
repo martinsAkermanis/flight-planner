@@ -10,6 +10,7 @@ import io.codelex.flightplanner.repository.model.FlightRecord;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -75,7 +76,7 @@ public class RepositoryFlightService implements FlightService {
 
     @Override
     public List<Flight> getAllFlights() {
-        return null;
+        new ArrayList<>(flightRecordRepository.findAll());
     }
 
     @Override
