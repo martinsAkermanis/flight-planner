@@ -4,7 +4,10 @@ spring:
     password: codelex
     url: jdbc:postgresql://localhost:5432/flight_planner
   jpa:
-    generate-ddl: true
+    hibernate:
+      ddl-auto: validate
+  liquibase:
+    change-log: classpath:/liquibase/updates.xml
 
 flight-planner:
   store-type: database

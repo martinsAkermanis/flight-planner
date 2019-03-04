@@ -5,7 +5,6 @@ import io.codelex.flightplanner.api.FindFlightRequest;
 import io.codelex.flightplanner.api.Flight;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface FlightService {
 
@@ -13,7 +12,7 @@ public interface FlightService {
 
     List<Flight> search(String from, String to);
 
-    Optional<Flight> findFlightById(Long id);
+    Flight findFlightById(Long id);
 
     void deleteFlightById(Long id);
 

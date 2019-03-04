@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="create airports table" author="martins">
+        <createTable tableName="airports">
+            <column name="airport" type="varchar(255)">
+                <constraints
+                        primaryKey="true"
+                        nullable="false"
+                        primaryKeyName="pk_airports"
+                />
+            </column>
+            <column name="city" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="country" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create flights table" author="martins">
+        <createTable tableName="flights">
+            <column name="id"
+                    type="bigint"
+                    defaultValueSequenceNext="flights_seq">
+                <constraints
+                        primaryKey="true"
+                        nullable="false"
+                        primaryKeyName="pk_flights"
+                />
+            </column>
+            <column name="airport_from"
+                    type="varchar(255)"
+            >
+                <constraints nullable="false"/>
+            </column>
+            <column name="airport_to"
+                    type="varchar(255)"
+            >
+                <constraints nullable="false"/>
+            </column>
+            <column name="departure_time"
+                    type="timestamp without timezone"
+            >
+                <constraints nullable="false"/>
+            </column>
+            <column name="arrival_time"
+                    type="timestamp without timezone"
+            >
+                <constraints nullable="false"/>
+            </column>
+            <column name="carrier"
+                    type="varchar(255)"
+            >
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+
+</databaseChangeLog>

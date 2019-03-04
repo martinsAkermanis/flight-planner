@@ -3,16 +3,27 @@ package io.codelex.flightplanner.api;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public class Flight {
 
     private Long id;
+    @Valid
+    @NotEmpty
     private Airport from;
+    @Valid
+    @NotEmpty
     private Airport to;
+    @NotEmpty
     private String carrier;
+    @NotNull
     private LocalDateTime departureTime;
+    @NotNull
     private LocalDateTime arrivalTime;
+    @NotNull
 
     @JsonCreator
     public Flight(@JsonProperty ("id") long id,

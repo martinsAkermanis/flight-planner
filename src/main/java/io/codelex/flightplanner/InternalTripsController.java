@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/internal-api")
@@ -17,7 +17,7 @@ class InternalTripsController {
     private FlightService service;
 
     @PutMapping("/flights")
-    public ResponseEntity addTrip(@RequestBody AddFlightRequest request) {
+    public ResponseEntity addTrip(@Valid @RequestBody AddFlightRequest request) {
         if (service.isFlightPresent(request)) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         } else if (isRequestNull(request) || areValuesSame(request)) {
@@ -40,7 +40,7 @@ class InternalTripsController {
     }
 
     static ResponseEntity getResponseEntity(@PathVariable Long id, FlightService service) {
-        Optional<Flight> response = service.findFlightById(id);
+        Flight response = service.findFlightById(id);
         if (response == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }

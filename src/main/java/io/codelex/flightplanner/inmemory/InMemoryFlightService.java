@@ -10,7 +10,6 @@ import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Component
@@ -48,10 +47,10 @@ public class InMemoryFlightService implements FlightService {
     }
 
     @Override
-    public synchronized Optional<Flight> findFlightById(Long id) {
-        return Optional.ofNullable(flights.stream()
+    public synchronized Flight findFlightById(Long id) {
+        return flights.stream()
                 .filter(flight -> flight.getId() == id)
-                .findFirst().orElse(null));
+                .findFirst().orElse(null);
     }
 
     @Override

@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -30,6 +29,9 @@ public class RepositoryFlightService implements FlightService {
 
     @Override
     public Flight addFlight(AddFlightRequest request) {
+        if (isFlightPresent(request)) {
+            return null;
+        }
 
         FlightRecord flightRecord = new FlightRecord();
         flightRecord.setFrom(createOrGetAirport(request.getFrom()));
@@ -40,7 +42,8 @@ public class RepositoryFlightService implements FlightService {
 
         flightRecordRepository.save(flightRecord);
 
-        return null;
+
+        return flightRecordRepository.findById(flightRecord.getId()).map(toFlight).orElse(null);
     }
 
     @Override
@@ -54,9 +57,10 @@ public class RepositoryFlightService implements FlightService {
     }
 
     @Override
-    public Optional<Flight> findFlightById(Long id) {
+    public Flight findFlightById(Long id) {
         return flightRecordRepository.findById(id)
-                .map(toFlight);
+                .map(toFlight)
+                .orElse(null);
     }
 
     @Override
@@ -71,7 +75,12 @@ public class RepositoryFlightService implements FlightService {
 
     @Override
     public boolean isFlightPresent(AddFlightRequest request) {
-        return false;
+        return flightRecordRepository.isFlightPresent(
+                request.getFrom().getAirport(),
+                request.getTo().getAirport(),
+                request.getDepartureTime(),
+                request.getArrivalTime(),
+                request.getCarrier());
     }
 
     @Override
@@ -82,7 +91,16 @@ public class RepositoryFlightService implements FlightService {
 
     @Override
     public List<Flight> findFlight(FindFlightRequest request) {
-        return null;
+        return flightRecordRepository.findMatching(
+                request.getFrom().getAirport(),
+                request.getTo().getAirport(),
+                request.getDeparture().atStartOfDay(),
+                request.getDeparture().atStartOfDay().plusDays(1),
+                request.getArrival().atStartOfDay(),
+                request.getArrival().atStartOfDay().plusDays(1))
+                .stream()
+                .map(toFlight)
+                .collect(Collectors.toList());
     }
 
     private AirportRecord createOrGetAirport(Airport airport) {
