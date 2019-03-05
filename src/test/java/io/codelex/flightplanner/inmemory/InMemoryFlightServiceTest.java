@@ -59,7 +59,7 @@ class InMemoryFlightServiceTest {
 
         //when
         Flight flight = service.addFlight(request);
-        Optional<Flight> result = service.findFlightById(flight.getId());
+        Flight result = service.findFlightById(flight.getId());
 
         //then
         assertNotNull(result);

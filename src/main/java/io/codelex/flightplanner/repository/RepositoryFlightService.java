@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -29,21 +30,20 @@ public class RepositoryFlightService implements FlightService {
 
     @Override
     public Flight addFlight(AddFlightRequest request) {
-        if (isFlightPresent(request)) {
+        /*if (isFlightPresent(request)) {
             return null;
-        }
+        }*/
 
         FlightRecord flightRecord = new FlightRecord();
         flightRecord.setFrom(createOrGetAirport(request.getFrom()));
         flightRecord.setTo(createOrGetAirport(request.getTo()));
         flightRecord.setCarrier(request.getCarrier());
-        flightRecord.setDepartureTime(request.getArrivalTime());
+        flightRecord.setDepartureTime(request.getDepartureTime());
         flightRecord.setArrivalTime(request.getArrivalTime());
 
         flightRecordRepository.save(flightRecord);
 
-
-        return flightRecordRepository.findById(flightRecord.getId()).map(toFlight).orElse(null);
+        return toFlight.apply(flightRecord);
     }
 
     @Override
@@ -65,7 +65,9 @@ public class RepositoryFlightService implements FlightService {
 
     @Override
     public void deleteFlightById(Long id) {
-        flightRecordRepository.deleteById(id);
+        if (flightRecordRepository.findById(id).isPresent()) {
+            flightRecordRepository.deleteById(id);
+        }
     }
 
     @Override

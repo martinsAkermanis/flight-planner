@@ -5,9 +5,10 @@ spring:
     url: jdbc:postgresql://localhost:5432/flight_planner
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create
   liquibase:
     change-log: classpath:/liquibase/updates.xml
+    enabled: false
 
 flight-planner:
   store-type: database
