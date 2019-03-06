@@ -57,7 +57,7 @@ class PublicTripsController {
         if (request.getTo().equals(request.getFrom())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return ResponseEntity.ok(service.findFlight(request));
+        return new ResponseEntity<>(service.findFlight(request), HttpStatus.OK);
     }
 
     private boolean isAnyAirportFieldNull(Airport airport) {

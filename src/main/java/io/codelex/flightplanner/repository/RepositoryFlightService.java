@@ -48,7 +48,12 @@ public class RepositoryFlightService implements FlightService {
 
     @Override
     public List<Flight> search(String from, String to) {
-
+        List<Flight> foundTrips = new ArrayList<>();
+        if ((from == null) || (to == null)) {
+            return foundTrips;
+        } else if (from.isEmpty() && to.isEmpty()) {
+            return foundTrips;
+        }
         return flightRecordRepository.searchFlights(from, to)
                 .stream()
                 .map(flightRecord -> toFlight.apply(flightRecord))
