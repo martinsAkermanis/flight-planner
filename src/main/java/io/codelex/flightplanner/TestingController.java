@@ -16,5 +16,4 @@ public class TestingController {
     public void clearAllTrips() {
         service.clearAllFlights();
     }
-
 }
