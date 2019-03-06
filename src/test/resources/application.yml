@@ -4,4 +4,7 @@ spring:
     url: jdbc:tc:postgresql:latest://localhost/organization
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: validate
+
+  liquibase:
+    change-log: classpath:/liquibase/updates.xml

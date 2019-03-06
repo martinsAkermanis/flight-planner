@@ -37,7 +37,7 @@ public class FlightRecordRepositoryTest {
         flight.setTo(DXB);
         flight.setCarrier("Turkish Airlines");
         flight.setDepartureTime(LocalDate.of(2019, 1, 1).atStartOfDay());
-        flight.setDepartureTime(LocalDate.of(2019, 1, 2).atStartOfDay());
+        flight.setArrivalTime(LocalDate.of(2019, 1, 2).atStartOfDay());
         repository.save(flight);
 
         //when
@@ -59,7 +59,7 @@ public class FlightRecordRepositoryTest {
         flight.setTo(DXB);
         flight.setCarrier("Turkish Airlines");
         flight.setDepartureTime(LocalDate.of(2019, 1, 1).atStartOfDay());
-        flight.setDepartureTime(LocalDate.of(2019, 1, 2).atStartOfDay());
+        flight.setArrivalTime(LocalDate.of(2019, 1, 2).atStartOfDay());
         repository.save(flight);
 
         //when
@@ -81,7 +81,7 @@ public class FlightRecordRepositoryTest {
         flight.setTo(DXB);
         flight.setCarrier("Turkish Airlines");
         flight.setDepartureTime(LocalDate.of(2019, 1, 1).atStartOfDay());
-        flight.setDepartureTime(LocalDate.of(2019, 1, 2).atStartOfDay());
+        flight.setArrivalTime(LocalDate.of(2019, 1, 2).atStartOfDay());
         repository.save(flight);
 
         //when
@@ -103,7 +103,7 @@ public class FlightRecordRepositoryTest {
         flight.setTo(DXB);
         flight.setCarrier("Turkish Airlines");
         flight.setDepartureTime(LocalDate.of(2019, 1, 1).atStartOfDay());
-        flight.setDepartureTime(LocalDate.of(2019, 1, 2).atStartOfDay());
+        flight.setArrivalTime(LocalDate.of(2019, 1, 2).atStartOfDay());
         repository.save(flight);
 
         //when
