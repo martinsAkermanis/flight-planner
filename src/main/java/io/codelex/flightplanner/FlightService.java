@@ -20,7 +20,7 @@ public interface FlightService {
 
     boolean isFlightPresent(AddFlightRequest request);
 
-    List<Flight>  getAllFlights();
+    List<Flight> getAllFlights();
 
     List<Flight> findFlight(FindFlightRequest request);
 }

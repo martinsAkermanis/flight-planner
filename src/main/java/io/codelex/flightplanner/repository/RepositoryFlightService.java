@@ -9,10 +9,7 @@ import io.codelex.flightplanner.repository.model.AirportRecord;
 import io.codelex.flightplanner.repository.model.FlightRecord;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -48,15 +45,20 @@ public class RepositoryFlightService implements FlightService {
 
     @Override
     public List<Flight> search(String from, String to) {
-        List<Flight> foundTrips = new ArrayList<>();
-        if ((from == null) || (to == null)) {
-            return foundTrips;
-        } else if (from.isEmpty() && to.isEmpty()) {
-            return foundTrips;
+        if (from == null || from.isEmpty()) {
+            return flightRecordRepository.searchFlightsTo(to)
+                    .stream()
+                    .map(toFlight)
+                    .collect(Collectors.toList());
+        } else if (to == null || to.isEmpty()) {
+            return flightRecordRepository.searchFlightsFrom(from)
+                    .stream()
+                    .map(toFlight)
+                    .collect(Collectors.toList());
         }
-        return flightRecordRepository.searchFlights(from, to)
+        return flightRecordRepository.searchFlightsFromTo(from, to)
                 .stream()
-                .map(flightRecord -> toFlight.apply(flightRecord))
+                .map(toFlight)
                 .collect(Collectors.toList());
 
     }
@@ -92,12 +94,16 @@ public class RepositoryFlightService implements FlightService {
 
     @Override
     public List<Flight> getAllFlights() {
-        new ArrayList<>(flightRecordRepository.findAll());
+        flightRecordRepository.findAll();
         return null;
     }
 
     @Override
     public List<Flight> findFlight(FindFlightRequest request) {
+        if (request.getFrom().equals(request.getTo())) {
+            throw new IllegalStateException();
+        }
+
         return flightRecordRepository.findMatching(
                 request.getFrom().getAirport(),
                 request.getTo().getAirport(),

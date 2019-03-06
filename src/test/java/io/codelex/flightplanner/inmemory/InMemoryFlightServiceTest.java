@@ -96,7 +96,7 @@ class InMemoryFlightServiceTest {
         service.deleteFlightById(flight.get().getId());
 
         //then
-        flight = service.findFlightById(flight.get().getId());
+        flight = Optional.ofNullable(service.findFlightById(flight.get().getId()));
         assertNull(flight);
     }
 
@@ -112,8 +112,8 @@ class InMemoryFlightServiceTest {
         service.clearAllFlights();
 
         //then
-        flight1 = service.findFlightById(flight1.get().getId());
-        flight2 = service.findFlightById(flight2.get().getId());
+        flight1 = Optional.ofNullable(service.findFlightById(flight1.get().getId()));
+        flight2 = Optional.ofNullable(service.findFlightById(flight2.get().getId()));
         assertNull(flight1);
         assertNull(flight2);
     }

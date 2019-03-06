@@ -18,13 +18,14 @@ class InternalTripsController {
 
     @PutMapping("/flights")
     public ResponseEntity addTrip(@Valid @RequestBody AddFlightRequest request) {
-        /*if (service.isFlightPresent(request)) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);*/
         if (isRequestNull(request) || areValuesSame(request)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else if (request.getArrivalTime().equals(request.getDepartureTime())
                 || request.getArrivalTime().isBefore(request.getDepartureTime())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        if (service.isFlightPresent(request)) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>(service.addFlight(request), HttpStatus.CREATED);
     }

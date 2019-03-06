@@ -9,23 +9,36 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface FlightRecordRepository extends JpaRepository<FlightRecord, Long> {
+    //JPQL syntax
+    @Query("select flight from FlightRecord flight where "
+            + " lower(flight.from.airport) like lower(concat('%', :from, '%'))"
+            + " or lower(flight.to.airport) like lower(concat('%', :to, '%'))"
+            + " or lower(flight.from.city) like lower(concat('%', :from, '%'))"
+            + " or lower(flight.to.city) like lower(concat('%', :to, '%'))"
+            + " or lower(flight.from.country) like lower(concat('%', :from, '%'))"
+            + " or lower(flight.to.country) like lower(concat('%', :to, '%'))")
+    List<FlightRecord> searchFlightsFromTo(@Param("from") String from, @Param("to") String to);
 
-    @Query("select flight from FlightRecord flight where " +
-            " lower(flight.from.airport) like lower(concat('%', :from, '%'))" +
-            " or lower(flight.to.airport) like lower(concat('%', :to, '%'))" +
-            " or lower(flight.from.city) like lower(concat('%', :from, '%'))" +
-            " or lower(flight.to.city) like lower(concat('%', :to, '%'))" +
-            " or lower(flight.to.country) like lower(concat('%', :from, '%'))" +
-            " or lower(flight.to.country) like lower(concat('%', :to, '%'))")
-    List<FlightRecord> searchFlights(@Param("from") String from, @Param("to") String to);
+    @Query("select flight from FlightRecord flight where "
+            + " lower(flight.from.airport) like lower(concat('%', :from, '%'))"
+            + " or lower(flight.from.city) like lower(concat('%', :from, '%'))"
+            + " or lower(flight.from.country) like lower(concat('%', :from, '%'))")
+    List<FlightRecord> searchFlightsFrom(@Param("from") String from);
 
-    @Query("select flight from FlightRecord flight where " +
-            "flight.from.airport = :from " +
-            "and flight.to = :to " +
-            "and flight.departureTime >= :departureFrom " +
-            "and flight.departureTime <= :departureTo " +
-            "and flight.arrivalTime >= :arrivalFrom " +
-            "and flight.arrivalTime <= :arrivalTo ")
+
+    @Query("select flight from FlightRecord flight where "
+            + " lower(flight.to.airport) like lower(concat('%', :to, '%'))"
+            + " or lower(flight.to.city) like lower(concat('%', :to, '%'))"
+            + " or lower(flight.to.country) like lower(concat('%', :to, '%'))")
+    List<FlightRecord> searchFlightsTo(@Param("to") String to);
+
+    @Query("select flight from FlightRecord flight where "
+            + "flight.from.airport = :from "
+            + "and flight.to.airport = :to "
+            + "and flight.departureTime >= :departureFrom "
+            + "and flight.departureTime <= :departureTo "
+            + "and flight.arrivalTime >= :arrivalFrom "
+            + "and flight.arrivalTime <= :arrivalTo ")
     List<FlightRecord> findMatching(@Param("from") String from,
                                     @Param("to") String to,
                                     @Param("departureFrom") LocalDateTime departureFrom,
@@ -34,12 +47,12 @@ public interface FlightRecordRepository extends JpaRepository<FlightRecord, Long
                                     @Param("arrivalTo") LocalDateTime arrivalTo);
 
 
-    @Query("select count (flight) >0 from FlightRecord flight where " +
-            " flight.from = :from " +
-            "and flight.to = :to " +
-            "and flight.departureTime = :departureTime " +
-            "and flight.arrivalTime = :arrivalTime " +
-            "and flight.carrier = :carrier ")
+    @Query("select count (flight) >0 from FlightRecord flight where "
+            + " flight.from.airport = :from "
+            + "and flight.to.airport = :to "
+            + "and flight.departureTime = :departureTime "
+            + "and flight.arrivalTime = :arrivalTime "
+            + "and flight.carrier = :carrier ")
     boolean isFlightPresent(@Param("from") String from,
                             @Param("to") String to,
                             @Param("departureTime") LocalDateTime departureFrom,

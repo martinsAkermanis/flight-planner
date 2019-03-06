@@ -36,12 +36,12 @@ public class FlightRecordRepositoryTest {
         flight.setFrom(RIX);
         flight.setTo(DXB);
         flight.setCarrier("Turkish Airlines");
-        flight.setDepartureTime(LocalDate.of(2019,1,1).atStartOfDay());
-        flight.setDepartureTime(LocalDate.of(2019,1,2).atStartOfDay());
+        flight.setDepartureTime(LocalDate.of(2019, 1, 1).atStartOfDay());
+        flight.setDepartureTime(LocalDate.of(2019, 1, 2).atStartOfDay());
         repository.save(flight);
 
         //when
-        List<FlightRecord> flights  = repository.searchFlights("Moscow", "Stockholm");
+        List<FlightRecord> flights = repository.searchFlightsFromTo("Moscow", "Stockholm");
 
         //then
         Assertions.assertTrue(flights.isEmpty());
@@ -58,12 +58,12 @@ public class FlightRecordRepositoryTest {
         flight.setFrom(RIX);
         flight.setTo(DXB);
         flight.setCarrier("Turkish Airlines");
-        flight.setDepartureTime(LocalDate.of(2019,1,1).atStartOfDay());
-        flight.setDepartureTime(LocalDate.of(2019,1,2).atStartOfDay());
+        flight.setDepartureTime(LocalDate.of(2019, 1, 1).atStartOfDay());
+        flight.setDepartureTime(LocalDate.of(2019, 1, 2).atStartOfDay());
         repository.save(flight);
 
         //when
-        List<FlightRecord> flights  = repository.searchFlights("RIX", "DXB");
+        List<FlightRecord> flights = repository.searchFlightsFromTo("RIX", "DXB");
 
         //then
         Assertions.assertFalse(flights.isEmpty());
@@ -80,12 +80,12 @@ public class FlightRecordRepositoryTest {
         flight.setFrom(RIX);
         flight.setTo(DXB);
         flight.setCarrier("Turkish Airlines");
-        flight.setDepartureTime(LocalDate.of(2019,1,1).atStartOfDay());
-        flight.setDepartureTime(LocalDate.of(2019,1,2).atStartOfDay());
+        flight.setDepartureTime(LocalDate.of(2019, 1, 1).atStartOfDay());
+        flight.setDepartureTime(LocalDate.of(2019, 1, 2).atStartOfDay());
         repository.save(flight);
 
         //when
-        List<FlightRecord> flights  = repository.searchFlights("Riga", "Dubai");
+        List<FlightRecord> flights = repository.searchFlightsFromTo("Riga", "Dubai");
 
         //then
         Assertions.assertFalse(flights.isEmpty());
@@ -102,12 +102,12 @@ public class FlightRecordRepositoryTest {
         flight.setFrom(RIX);
         flight.setTo(DXB);
         flight.setCarrier("Turkish Airlines");
-        flight.setDepartureTime(LocalDate.of(2019,1,1).atStartOfDay());
-        flight.setDepartureTime(LocalDate.of(2019,1,2).atStartOfDay());
+        flight.setDepartureTime(LocalDate.of(2019, 1, 1).atStartOfDay());
+        flight.setDepartureTime(LocalDate.of(2019, 1, 2).atStartOfDay());
         repository.save(flight);
 
         //when
-        List<FlightRecord> flights  = repository.searchFlights("LV", "UAE");
+        List<FlightRecord> flights = repository.searchFlightsFromTo("LV", "UAE");
 
         //then
         Assertions.assertFalse(flights.isEmpty());
