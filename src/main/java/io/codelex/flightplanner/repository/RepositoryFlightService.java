@@ -9,6 +9,7 @@ import io.codelex.flightplanner.repository.model.AirportRecord;
 import io.codelex.flightplanner.repository.model.FlightRecord;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,9 +28,6 @@ public class RepositoryFlightService implements FlightService {
 
     @Override
     public Flight addFlight(AddFlightRequest request) {
-        /*if (isFlightPresent(request)) {
-            return null;
-        }*/
 
         FlightRecord flightRecord = new FlightRecord();
         flightRecord.setFrom(createOrGetAirport(request.getFrom()));
@@ -60,7 +58,6 @@ public class RepositoryFlightService implements FlightService {
                 .stream()
                 .map(toFlight)
                 .collect(Collectors.toList());
-
     }
 
     @Override

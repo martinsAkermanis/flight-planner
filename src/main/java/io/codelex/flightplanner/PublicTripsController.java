@@ -6,6 +6,7 @@ import io.codelex.flightplanner.api.Flight;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,18 +25,11 @@ class PublicTripsController {
     @GetMapping("/flights/search")
     public ResponseEntity<List<Flight>> search(@RequestParam(value = "from", required = false) String from,
                                                @RequestParam(value = "to", required = false) String to) {
-       /* List<Flight> fromTo = service.search(from, to);
-        if (from == null && to == null) {
-            if (fromTo.isEmpty()) {
-                return new ResponseEntity<>(service.getAllFlights(), HttpStatus.OK);
-            }
-            return new ResponseEntity<>(service.getAllFlights(), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(fromTo, HttpStatus.OK);*/
         if (from == null
                 || to == null) {
             return ResponseEntity.ok(Collections.emptyList());
         }
+
         List<Flight> fromTo = service.search(from, to);
 
         return new ResponseEntity<>(fromTo, HttpStatus.OK);

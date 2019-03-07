@@ -11,25 +11,25 @@ import java.util.List;
 public interface FlightRecordRepository extends JpaRepository<FlightRecord, Long> {
     //JPQL syntax
     @Query("select flight from FlightRecord flight where "
-            + " lower(flight.from.airport) like lower(concat('%', :from, '%'))"
-            + " or lower(flight.to.airport) like lower(concat('%', :to, '%'))"
-            + " or lower(flight.from.city) like lower(concat('%', :from, '%'))"
-            + " or lower(flight.to.city) like lower(concat('%', :to, '%'))"
-            + " or lower(flight.from.country) like lower(concat('%', :from, '%'))"
-            + " or lower(flight.to.country) like lower(concat('%', :to, '%'))")
+            + " lower(flight.from.airport) like lower(trim(concat('%', :from, '%')))"
+            + " or lower(flight.to.airport) like lower(trim(concat('%', :to, '%')))"
+            + " or lower(flight.from.city) like lower(trim(concat('%', :from, '%')))"
+            + " or lower(flight.to.city) like lower(trim(concat('%', :to, '%')))"
+            + " or lower(flight.from.country) like lower(trim(concat('%', :from, '%')))"
+            + " or lower(flight.to.country) like lower(trim(concat('%', :to, '%')))")
     List<FlightRecord> searchFlightsFromTo(@Param("from") String from, @Param("to") String to);
 
     @Query("select flight from FlightRecord flight where "
-            + " lower(flight.from.airport) like lower(concat('%', :from, '%'))"
-            + " or lower(flight.from.city) like lower(concat('%', :from, '%'))"
-            + " or lower(flight.from.country) like lower(concat('%', :from, '%'))")
+            + " lower(flight.from.airport) like lower(trim(concat('%', :from, '%')))"
+            + " or lower(flight.from.city) like lower(trim(concat('%', :from, '%')))"
+            + " or lower(flight.from.country) like lower(trim(concat('%', :from, '%')))")
     List<FlightRecord> searchFlightsFrom(@Param("from") String from);
 
 
     @Query("select flight from FlightRecord flight where "
-            + " lower(flight.to.airport) like lower(concat('%', :to, '%'))"
-            + " or lower(flight.to.city) like lower(concat('%', :to, '%'))"
-            + " or lower(flight.to.country) like lower(concat('%', :to, '%'))")
+            + " lower(flight.to.airport) like lower(trim(concat('%', :to, '%')))"
+            + " or lower(flight.to.city) like lower(trim(concat('%', :to, '%')))"
+            + " or lower(flight.to.country) like lower(trim(concat('%', :to, '%')))")
     List<FlightRecord> searchFlightsTo(@Param("to") String to);
 
     @Query("select flight from FlightRecord flight where "

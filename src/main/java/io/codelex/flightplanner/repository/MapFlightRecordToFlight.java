@@ -6,7 +6,7 @@ import io.codelex.flightplanner.repository.model.FlightRecord;
 
 import java.util.function.Function;
 
-class MapFlightRecordToFlight implements Function<FlightRecord, Flight> {
+public class MapFlightRecordToFlight implements Function<FlightRecord, Flight> {
 
 
     @Override

@@ -48,11 +48,10 @@ public class FlightRecordRepositoryTest {
     }
 
     @Test
-    void search_should_return_flight_when_matched() {
+    void search_should_return_flight_when_airports_both_airports_matched() {
         //given
         AirportRecord RIX = airportRecordRepository.save(new AirportRecord("RIX", "Riga", "LV"));
         AirportRecord DXB = airportRecordRepository.save(new AirportRecord("DXB", "Dubai", "UAE"));
-
 
         FlightRecord flight = new FlightRecord();
         flight.setFrom(RIX);
@@ -63,10 +62,10 @@ public class FlightRecordRepositoryTest {
         repository.save(flight);
 
         //when
-        List<FlightRecord> flights = repository.searchFlightsFromTo("RIX", "DXB");
+        List<FlightRecord> flights = repository.searchFlightsFromTo("RIX", "dxb");
 
         //then
-        Assertions.assertFalse(flights.isEmpty());
+        Assertions.assertTrue(flights.contains(flight));
     }
 
     @Test
@@ -85,7 +84,7 @@ public class FlightRecordRepositoryTest {
         repository.save(flight);
 
         //when
-        List<FlightRecord> flights = repository.searchFlightsFromTo("Riga", "Dubai");
+        List<FlightRecord> flights = repository.searchFlightsFromTo(" ri", "");
 
         //then
         Assertions.assertFalse(flights.isEmpty());
@@ -107,7 +106,51 @@ public class FlightRecordRepositoryTest {
         repository.save(flight);
 
         //when
-        List<FlightRecord> flights = repository.searchFlightsFromTo("LV", "UAE");
+        List<FlightRecord> flights = repository.searchFlightsFromTo("lv ", "UaE");
+
+        //then
+        Assertions.assertFalse(flights.isEmpty());
+    }
+
+    @Test
+    void search_should_return_flight_by_partial_parameter_from() {
+        //given
+        AirportRecord RIX = airportRecordRepository.save(new AirportRecord("AAA", "Riga", "LV"));
+        AirportRecord DXB = airportRecordRepository.save(new AirportRecord("BBB", "Dubai", "UAE"));
+
+
+        FlightRecord flight = new FlightRecord();
+        flight.setFrom(RIX);
+        flight.setTo(DXB);
+        flight.setCarrier("Turkish Airlines");
+        flight.setDepartureTime(LocalDate.of(2019, 1, 1).atStartOfDay());
+        flight.setArrivalTime(LocalDate.of(2019, 1, 2).atStartOfDay());
+        repository.save(flight);
+
+        //when
+        List<FlightRecord> flights = repository.searchFlightsFrom("rig");
+
+        //then
+        Assertions.assertFalse(flights.isEmpty());
+    }
+
+    @Test
+    void search_should_return_flight_by_partial_parameter_to() {
+        //given
+        AirportRecord RIX = airportRecordRepository.save(new AirportRecord("AAA", "Riga", "LV"));
+        AirportRecord DXB = airportRecordRepository.save(new AirportRecord("BBB", "Dubai", "UAE"));
+
+
+        FlightRecord flight = new FlightRecord();
+        flight.setFrom(RIX);
+        flight.setTo(DXB);
+        flight.setCarrier("Turkish Airlines");
+        flight.setDepartureTime(LocalDate.of(2019, 1, 1).atStartOfDay());
+        flight.setArrivalTime(LocalDate.of(2019, 1, 2).atStartOfDay());
+        repository.save(flight);
+
+        //when
+        List<FlightRecord> flights = repository.searchFlightsTo("uae");
 
         //then
         Assertions.assertFalse(flights.isEmpty());
