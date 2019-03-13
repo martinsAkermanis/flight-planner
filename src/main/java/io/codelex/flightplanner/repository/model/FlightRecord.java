@@ -11,7 +11,6 @@ public class FlightRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @ManyToOne
     private AirportRecord from;
 

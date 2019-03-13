@@ -97,7 +97,7 @@ class InMemoryFlightServiceTest {
 
         //then
         flight = Optional.ofNullable(service.findFlightById(flight.get().getId()));
-        assertNull(flight);
+        assertEquals(Optional.empty(), flight);
     }
 
     @Test
@@ -114,8 +114,8 @@ class InMemoryFlightServiceTest {
         //then
         flight1 = Optional.ofNullable(service.findFlightById(flight1.get().getId()));
         flight2 = Optional.ofNullable(service.findFlightById(flight2.get().getId()));
-        assertNull(flight1);
-        assertNull(flight2);
+        assertEquals(Optional.empty(), flight1);
+        assertEquals(Optional.empty(), flight2);
     }
 
     @Test
