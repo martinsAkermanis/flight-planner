@@ -26,7 +26,7 @@ public class Flight {
     @NotNull
 
     @JsonCreator
-    public Flight(@JsonProperty ("id") long id,
+    public Flight(@JsonProperty ("id") Long id,
                   @JsonProperty ("from")Airport from,
                   @JsonProperty ("to") Airport to,
                   @JsonProperty ("carrier") String carrier,

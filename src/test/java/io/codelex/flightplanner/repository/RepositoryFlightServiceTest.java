@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 class RepositoryFlightServiceTest {
@@ -24,14 +25,11 @@ class RepositoryFlightServiceTest {
 
     @Mock
     FlightRecordRepository flightRecordRepository;
-
     @Mock
     AirportRecordRepository airportRecordRepository;
-    MapFlightRecordToFlight mapFlightRecordToFlight = new MapFlightRecordToFlight();
 
     FlightRecord flightToTest = newFlightRecord();
     final Long flightId = 1L;
-
 
     @BeforeEach
     void setUp() {
@@ -42,69 +40,97 @@ class RepositoryFlightServiceTest {
 
     @Test
     void add_Flight() {
+        //given
         List<FlightRecord> flightRecordList = new ArrayList<>();
-
         flightRecordList.add(flightToTest);
 
+        //when
         when(flightRecordRepository.findAll()).thenReturn((flightRecordList));
-        assertEquals(flightRecordList.size(), 1);
+        when(airportRecordRepository.save(any())).thenReturn(new AirportRecord());
+        when(flightRecordRepository.save(any())).thenReturn(flightToTest);
 
+        //then
+        airportRecordRepository.save(new AirportRecord("Latvia", "Riga", "RIX"));
+        airportRecordRepository.save(new AirportRecord("UAE", "Dubai", "DXB"));
+        Flight flight = repositoryFlightService.addFlight(newFlightRequest());
+
+        List<Flight> flightList = repositoryFlightService.getAllFlights();
+
+        assertTrue(!flightList.isEmpty());
+        assertEquals(flight.getCarrier(), newFlightRequest().getCarrier());
     }
+
 
     @Test
     void search() {
-        List<Flight> flightList = new ArrayList<>();
-
-        Flight flight = mapFlightRecordToFlight.apply(flightToTest);
-        flightList.add(flight);
+        //given
+        List<FlightRecord> flightRecordList = new ArrayList<>();
+        flightRecordList.add(flightToTest);
 
         String from = "Latvia";
         String to = "UAE";
 
-        when(repositoryFlightService.search(from, to))
-                .thenReturn((flightList));
+        //when
+        when(flightRecordRepository.save(any())).thenReturn(flightToTest);
+        when(flightRecordRepository.searchFlightsFromTo(from, to)).thenReturn(flightRecordList);
+        when(flightRecordRepository.searchFlightsFrom(from)).thenReturn(flightRecordList);
+        when(flightRecordRepository.searchFlightsTo(to)).thenReturn(flightRecordList);
 
-        assertEquals(flight.getFrom().getAirport(), from);
-        assertEquals(flight.getTo().getAirport(), to);
+        //then
+        flightRecordRepository.save(flightToTest);
+
+        List<Flight> searchResultFromTo = repositoryFlightService.search(from, to);
+        List<Flight> searchResultFrom = repositoryFlightService.search(from, "");
+        List<Flight> searchResultTo = repositoryFlightService.search("", to);
+        assertTrue(!searchResultFromTo.isEmpty());
+        assertTrue(!searchResultFrom.isEmpty());
+        assertTrue(!searchResultTo.isEmpty());
     }
 
     @Test
     void findFlightById() {
 
-        when(flightRecordRepository.findById(flightId)).thenReturn(java.util.Optional.ofNullable(flightToTest));
-        Optional<FlightRecord> flightRecord = flightRecordRepository.findById(flightId);
+        //when
+        when(flightRecordRepository.save(any())).thenReturn(flightToTest);
+        when(airportRecordRepository.save(any())).thenReturn(new AirportRecord());
+        when(flightRecordRepository.findById(flightId)).thenReturn(Optional.ofNullable(flightToTest));
 
-        assertEquals(flightId, flightRecord.get().getId());
+        //then
+        Flight searchResult = repositoryFlightService.findFlightById(1L);
+
+        assertEquals(searchResult.getId(), flightId);
+        assertNotNull(flightRecordRepository.findById(flightToTest.getId()));
+
 
     }
 
     @Test
     void deleteFlightById() {
 
-        when(flightRecordRepository.findById(flightId)).thenReturn(java.util.Optional.ofNullable(flightToTest));
-        Optional<FlightRecord> flightRecord = flightRecordRepository.findById(flightId);
+        //when
+        when(flightRecordRepository.save(any())).thenReturn(flightToTest);
 
-        assertEquals(flightId, flightRecord.get().getId());
-    }
-
-    @Test
-    void clearAllFlights() {
-
+        //then
         flightRecordRepository.save(flightToTest);
-        flightRecordRepository.deleteAll();
+        repositoryFlightService.clearAllFlights();
 
-        assertTrue(flightRecordRepository.count() == 0);
+        assertEquals(flightRecordRepository.count(), 0);
+        assertEquals(flightRecordRepository.findById(flightToTest.getId()), Optional.empty());
     }
+
 
     @Test
     void getAllFlights() {
+        //given
         List<FlightRecord> flightRecordList = new ArrayList<>();
-
         flightRecordList.add(flightToTest);
 
+        //when
         when(flightRecordRepository.findAll()).thenReturn(flightRecordList);
 
-        assertTrue(flightRecordList.contains(flightToTest));
+        //then
+        List<Flight> flightList = repositoryFlightService.getAllFlights();
+        assertTrue(!flightList.isEmpty());
     }
 
 
@@ -125,8 +151,8 @@ class RepositoryFlightServiceTest {
         flightRecord.setFrom(new AirportRecord("Latvia", "Riga", "RIX"));
         flightRecord.setTo(new AirportRecord("UAE", "Dubai", "DXB"));
         flightRecord.setCarrier("Turkish");
-        flightRecord.setDepartureTime(LocalDateTime.now());
-        flightRecord.setArrivalTime(LocalDateTime.now().plusHours(1));
+        flightRecord.setDepartureTime(newFlightRequest().getDepartureTime());
+        flightRecord.setArrivalTime(newFlightRequest().getArrivalTime());
 
         return flightRecord;
     }

@@ -14,14 +14,14 @@ public class MapFlightRecordToFlight implements Function<FlightRecord, Flight> {
         return new Flight(
                 flightRecord.getId(),
                 new Airport(
-                        flightRecord.getFrom().getCountry(),
+                        flightRecord.getFrom().getAirport(),
                         flightRecord.getFrom().getCity(),
-                        flightRecord.getFrom().getAirport()
+                        flightRecord.getFrom().getCountry()
                 ),
                 new Airport(
-                        flightRecord.getTo().getCountry(),
+                        flightRecord.getTo().getAirport(),
                         flightRecord.getTo().getCity(),
-                        flightRecord.getTo().getAirport()
+                        flightRecord.getTo().getCountry()
                 ),
                 flightRecord.getCarrier(),
                 flightRecord.getDepartureTime(),
