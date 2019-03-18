@@ -1,7 +1,6 @@
-package io.codelex.flightplanner;
+package io.codelex.flightplanner.repository;
 
 import io.codelex.flightplanner.api.Flight;
-import io.codelex.flightplanner.repository.MapFlightRecordToFlight;
 import io.codelex.flightplanner.repository.model.AirportRecord;
 import io.codelex.flightplanner.repository.model.FlightRecord;
 import org.junit.jupiter.api.Assertions;
