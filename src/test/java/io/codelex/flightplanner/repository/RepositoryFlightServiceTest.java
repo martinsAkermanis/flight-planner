@@ -8,7 +8,9 @@ import io.codelex.flightplanner.repository.model.FlightRecord;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.stubbing.Answer;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -46,12 +48,11 @@ class RepositoryFlightServiceTest {
 
         //when
         when(flightRecordRepository.findAll()).thenReturn((flightRecordList));
-        when(airportRecordRepository.save(any())).thenReturn(new AirportRecord());
+        Mockito.when(airportRecordRepository.save(Mockito.any()))
+                .thenAnswer((Answer) invocation -> invocation.getArguments()[0]);
         when(flightRecordRepository.save(any())).thenReturn(flightToTest);
 
         //then
-        airportRecordRepository.save(new AirportRecord("Latvia", "Riga", "RIX"));
-        airportRecordRepository.save(new AirportRecord("UAE", "Dubai", "DXB"));
         Flight flight = repositoryFlightService.addFlight(newFlightRequest());
 
         List<Flight> flightList = repositoryFlightService.getAllFlights();
@@ -100,7 +101,6 @@ class RepositoryFlightServiceTest {
 
         assertEquals(searchResult.getId(), flightId);
         assertNotNull(flightRecordRepository.findById(flightToTest.getId()));
-
 
     }
 

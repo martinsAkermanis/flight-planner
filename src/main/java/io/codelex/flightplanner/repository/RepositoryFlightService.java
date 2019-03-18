@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 @Component
 @ConditionalOnProperty(prefix = "flight-planner", name = "store-type", havingValue = "database")
-public class RepositoryFlightService implements FlightService {
+class RepositoryFlightService implements FlightService {
     private final FlightRecordRepository flightRecordRepository;
     private final AirportRecordRepository airportRecordRepository;
     private final MapFlightRecordToFlight toFlight = new MapFlightRecordToFlight();
