@@ -1,4 +1,4 @@
-package io.codelex.flightplanner;
+package io.codelex.flightplanner.inmemory;
 
 import io.codelex.flightplanner.api.AddFlightRequest;
 import io.codelex.flightplanner.api.Airport;
@@ -7,13 +7,14 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class FlightServiceTest {
-    private FlightService service = new FlightService();
+class InMemoryFlightServiceTest {
+    private InMemoryFlightService service = new InMemoryFlightService();
 
     @Test
     void should_be_able_to_add_flight() {
@@ -91,12 +92,12 @@ class FlightServiceTest {
         AddFlightRequest request = addRequest();
 
         //when
-        Flight flight = service.addFlight(request);
-        service.deleteFlightById(flight.getId());
+        Optional<Flight> flight = Optional.ofNullable(service.addFlight(request));
+        service.deleteFlightById(flight.get().getId());
 
         //then
-        flight = service.findFlightById(flight.getId());
-        assertNull(flight);
+        flight = Optional.ofNullable(service.findFlightById(flight.get().getId()));
+        assertEquals(Optional.empty(), flight);
     }
 
     @Test
@@ -106,15 +107,15 @@ class FlightServiceTest {
         AddFlightRequest request2 = addRequest2();
 
         //when
-        Flight flight1 = service.addFlight(request1);
-        Flight flight2 = service.addFlight(request2);
+        Optional<Flight> flight1 = Optional.ofNullable(service.addFlight(request1));
+        Optional<Flight> flight2 = Optional.ofNullable(service.addFlight(request2));
         service.clearAllFlights();
 
         //then
-        flight1 = service.findFlightById(flight1.getId());
-        flight2 = service.findFlightById(flight2.getId());
-        assertNull(flight1);
-        assertNull(flight2);
+        flight1 = Optional.ofNullable(service.findFlightById(flight1.get().getId()));
+        flight2 = Optional.ofNullable(service.findFlightById(flight2.get().getId()));
+        assertEquals(Optional.empty(), flight1);
+        assertEquals(Optional.empty(), flight2);
     }
 
     @Test
@@ -124,7 +125,7 @@ class FlightServiceTest {
 
         //when
         service.addFlight(request);
-        List<Flight> flights = service.findFromTo(null, null);
+        List<Flight> flights = service.search(null, null);
 
         //then
         assertTrue(flights.isEmpty());
@@ -137,7 +138,7 @@ class FlightServiceTest {
 
         //when
         Flight flight = service.addFlight(request);
-        List<Flight> flights = service.findFromTo("", "ARN");
+        List<Flight> flights = service.search("", "ARN");
 
         //then
         assertTrue(flights.contains(flight));
@@ -150,7 +151,7 @@ class FlightServiceTest {
 
         //when
         Flight flight = service.addFlight(request);
-        List<Flight> flights = service.findFromTo("", "swe");
+        List<Flight> flights = service.search("", "swe");
 
         //then
         assertTrue(flights.contains(flight));
@@ -162,7 +163,7 @@ class FlightServiceTest {
 
         //when
         Flight flight = service.addFlight(request);
-        List<Flight> flights = service.findFromTo("", "Stoc");
+        List<Flight> flights = service.search("", "Stoc");
 
         //then
         assertTrue(flights.contains(flight));
@@ -174,7 +175,7 @@ class FlightServiceTest {
 
         //when
         Flight flight = service.addFlight(request);
-        List<Flight> flights = service.findFromTo("", "stoc");
+        List<Flight> flights = service.search("", "stoc");
 
         //then
         assertTrue(flights.contains(flight));
@@ -186,7 +187,7 @@ class FlightServiceTest {
 
         //when
         Flight flight = service.addFlight(request);
-        List<Flight> flights = service.findFromTo("", "SWE");
+        List<Flight> flights = service.search("", "SWE");
 
         //then
         assertTrue(flights.contains(flight));
@@ -198,7 +199,7 @@ class FlightServiceTest {
 
         //when
         Flight flight = service.addFlight(request);
-        List<Flight> flights = service.findFromTo("", "STO");
+        List<Flight> flights = service.search("", "STO");
 
         //then
         assertTrue(flights.contains(flight));
@@ -210,7 +211,7 @@ class FlightServiceTest {
 
         //when
         Flight flight = service.addFlight(request);
-        List<Flight> flights = service.findFromTo("rix ", "");
+        List<Flight> flights = service.search("rix ", "");
 
         //then
         assertTrue(flights.contains(flight));
@@ -222,7 +223,7 @@ class FlightServiceTest {
 
         //when
         Flight flight = service.addFlight(request);
-        List<Flight> flights = service.findFromTo("LAT   ", "");
+        List<Flight> flights = service.search("LAT   ", "");
 
         //then
         assertTrue(flights.contains(flight));
@@ -234,7 +235,7 @@ class FlightServiceTest {
 
         //when
         Flight flight = service.addFlight(request);
-        List<Flight> flights = service.findFromTo("   RI    ", "");
+        List<Flight> flights = service.search("   RI    ", "");
 
         //then
         assertTrue(flights.contains(flight));

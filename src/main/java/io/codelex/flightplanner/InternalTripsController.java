@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/internal-api")
 class InternalTripsController {
@@ -15,23 +17,23 @@ class InternalTripsController {
     private FlightService service;
 
     @PutMapping("/flights")
-    public ResponseEntity addTrip(@RequestBody AddFlightRequest request) {
-        if (service.isFlightPresent(request)) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-        else if (isRequestNull(request) || areValuesSame(request)) {
+    public ResponseEntity addTrip(@Valid @RequestBody AddFlightRequest request) {
+        if (isRequestNull(request) || areValuesSame(request)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        else if (request.getArrivalTime().equals(request.getDepartureTime())
+        } else if (request.getArrivalTime().equals(request.getDepartureTime())
                 || request.getArrivalTime().isBefore(request.getDepartureTime())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        if (service.isFlightPresent(request)) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>(service.addFlight(request), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/flights/{id}")
-    public void deleteTripById(@PathVariable("id") Long id) {
+    public ResponseEntity deleteTripById(@PathVariable("id") Long id) {
         service.deleteFlightById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/flights/{id}")

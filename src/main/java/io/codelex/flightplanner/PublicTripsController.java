@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.List;
 
 import static io.codelex.flightplanner.InternalTripsController.getResponseEntity;
@@ -18,20 +19,21 @@ import static io.codelex.flightplanner.InternalTripsController.getResponseEntity
 class PublicTripsController {
 
     @Autowired
-    private FlightService service = new FlightService();
+    private FlightService service;
 
     @GetMapping("/flights/search")
     public ResponseEntity<List<Flight>> search(@RequestParam(value = "from", required = false) String from,
                                                @RequestParam(value = "to", required = false) String to) {
-        List<Flight> fromTo = service.findFromTo(from, to);
-        if (from == null && to == null) {
-            if (fromTo.isEmpty()) {
-                return new ResponseEntity<>(service.getAllFlights(), HttpStatus.OK);
-            }
-            return new ResponseEntity<>(service.getAllFlights(), HttpStatus.OK);
+        if (from == null
+                || to == null) {
+            return ResponseEntity.ok(Collections.emptyList());
         }
+
+        List<Flight> fromTo = service.search(from, to);
+
         return new ResponseEntity<>(fromTo, HttpStatus.OK);
     }
+
 
     @PostMapping("/flights")
     public ResponseEntity<List<Flight>> findFlight(@Valid @RequestBody FindFlightRequest request) {
@@ -56,7 +58,7 @@ class PublicTripsController {
         if (request.getTo().equals(request.getFrom())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return ResponseEntity.ok(service.findFlight(request));
+        return new ResponseEntity<>(service.findFlight(request), HttpStatus.OK);
     }
 
     private boolean isAnyAirportFieldNull(Airport airport) {

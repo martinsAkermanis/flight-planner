@@ -13,8 +13,7 @@ public class TestingController {
     private FlightService service;
 
     @PostMapping("/clear")
-    public void clearAllTrips() {
+    public void clearAllFlights() {
         service.clearAllFlights();
     }
-
 }
