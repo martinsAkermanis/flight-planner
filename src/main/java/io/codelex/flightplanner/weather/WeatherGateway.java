@@ -53,8 +53,7 @@ public class WeatherGateway {
                     day.getMaxWind()
             ));
         } catch (Exception e) {
-            log.debug("smth happened!");
-            log.warn("Exception caught: " + e);
+            log.warn("Error fetching weather forecast: " + e);
             return Optional.empty();
         }
     }

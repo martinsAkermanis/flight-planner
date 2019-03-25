@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 public class ForecastCache {
     private final WeatherGateway gateway;
 
-     public final Cache<CacheKey, Weather> cache = Caffeine.newBuilder()
+    private final Cache<CacheKey, Weather> cache = Caffeine.newBuilder()
             .expireAfterWrite(1, TimeUnit.DAYS)
             .maximumSize(100)
             .build();
@@ -22,21 +22,17 @@ public class ForecastCache {
         this.gateway = gateway;
     }
 
-    public Optional<Weather> fetchForecast(String city, LocalDate date) {
+    public Optional<Weather> checkCacheKey(String city, LocalDate date) {
         CacheKey key = new CacheKey(city, date);
-        //Weather weather = cache.getIfPresent(key);
 
         if (cache.getIfPresent(key) != null) {
             return Optional.ofNullable(cache.getIfPresent(key));
         }
         Optional<Weather> response = gateway.fetchForecast(city, date);
 
-        response.ifPresent(weather -> cache.put(key, weather));
-
+        response.ifPresent(it -> cache.put(key, it));
         return response;
     }
-
-
 }
 
 

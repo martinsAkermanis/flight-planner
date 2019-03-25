@@ -3,7 +3,6 @@ package io.codelex.flightplanner.weather;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 
@@ -15,7 +14,6 @@ public class ForecastResponse {
         this.forecast = forecast;
     }
 
-    @NotNull
     Forecast getForecast() {
         return forecast;
     }
@@ -23,7 +21,7 @@ public class ForecastResponse {
     public static class Forecast {
         private final List<ForecastDay> forecastDays;
 
-        public List<ForecastDay> getForecastDays() {
+        List<ForecastDay> getForecastDays() {
             return forecastDays;
         }
 
@@ -42,7 +40,7 @@ public class ForecastResponse {
             this.day = day;
         }
 
-        public Day getDay() {
+        Day getDay() {
             return day;
         }
 
@@ -66,19 +64,19 @@ public class ForecastResponse {
             this.condition = condition;
         }
 
-        public double getAverageTemperature() {
+        double getAverageTemperature() {
             return averageTemperature;
         }
 
-        public double getMaxWind() {
+        double getMaxWind() {
             return maxWind;
         }
 
-        public int getTotalPrecipitation() {
+        int getTotalPrecipitation() {
             return totalPrecipitation;
         }
 
-        public Condition getCondition() {
+        Condition getCondition() {
             return condition;
         }
     }
@@ -91,7 +89,7 @@ public class ForecastResponse {
             this.text = text;
         }
 
-        public String getText() {
+        String getText() {
             return text;
         }
     }

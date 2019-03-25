@@ -1,8 +1,5 @@
 package io.codelex.flightplanner.api;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class Weather {
 
     private final String condition;
@@ -10,12 +7,12 @@ public class Weather {
     private final int precipitation;
     private final double windSpeed;
 
-    @JsonCreator
+
     public Weather(
-            @JsonProperty("condition") String condition,
-            @JsonProperty("temperature") double temperature,
-            @JsonProperty("totalprecip mm") int precipitation,
-            @JsonProperty("maxwind_kph") double windSpeed) {
+            String condition,
+            double temperature,
+            int precipitation,
+            double windSpeed) {
         this.condition = condition;
         this.temperature = temperature;
         this.precipitation = precipitation;

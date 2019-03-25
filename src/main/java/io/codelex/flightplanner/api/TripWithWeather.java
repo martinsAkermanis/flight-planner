@@ -1,22 +1,18 @@
 package io.codelex.flightplanner.api;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.time.LocalDateTime;
 
 public class TripWithWeather extends Flight {
 
     private final Weather weather;
 
-    @JsonCreator
-    public TripWithWeather(@JsonProperty("id") Long id,
-                           @JsonProperty("from") Airport from,
-                           @JsonProperty("to") Airport to,
-                           @JsonProperty("carrier") String carrier,
-                           @JsonProperty("departureTime") LocalDateTime departureTime,
-                           @JsonProperty("arrivalTime") LocalDateTime arrivalTime,
-                           @JsonProperty("weather") Weather weather) {
+    public TripWithWeather(Long id,
+                           Airport from,
+                           Airport to,
+                           String carrier,
+                           LocalDateTime departureTime,
+                           LocalDateTime arrivalTime,
+                           Weather weather) {
         super(id, from, to, carrier, departureTime, arrivalTime);
         this.weather = weather;
     }

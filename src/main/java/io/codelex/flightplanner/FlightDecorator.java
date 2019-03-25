@@ -28,7 +28,7 @@ class FlightDecorator {
 
     private TripWithWeather decorate(Flight flight) {
         Airport to = flight.getTo();
-        Optional<Weather> weather = cache.fetchForecast(
+        Optional<Weather> weather = cache.checkCacheKey(
                 to.getCity(),
                 flight.getArrivalTime().toLocalDate()
         );

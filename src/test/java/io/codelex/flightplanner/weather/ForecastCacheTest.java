@@ -25,7 +25,7 @@ class ForecastCacheTest {
                 .thenReturn(Optional.ofNullable(defaultWeather));
 
         //when
-        Optional<Weather> weather = cache.fetchForecast("Riga", defaultDate);
+        Optional<Weather> weather = cache.checkCacheKey("Riga", defaultDate);
 
         //then
         assertEquals("Snow", weather.get().getCondition());
@@ -39,8 +39,8 @@ class ForecastCacheTest {
                 .thenReturn(Optional.ofNullable(defaultWeather));
 
         //when
-        cache.fetchForecast("Riga", defaultDate);
-        cache.fetchForecast("Riga", defaultDate);
+        cache.checkCacheKey("Riga", defaultDate);
+        cache.checkCacheKey("Riga", defaultDate);
 
         //then
         verify(gateway, times(1))

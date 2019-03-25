@@ -48,7 +48,7 @@ class FlightDecoratorTest {
         when(flightService.findFlight(req))
                 .thenReturn(tripsFromService);
 
-        when(cache.fetchForecast("Stockholm", defaultDate.plusDays(1)))
+        when(cache.checkCacheKey("Stockholm", defaultDate.plusDays(1)))
                 .thenReturn(java.util.Optional.of(weather));
 
         List<TripWithWeather> trips = decorator.findFlight(req);
