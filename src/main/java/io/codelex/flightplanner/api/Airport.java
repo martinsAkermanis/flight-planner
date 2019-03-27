@@ -15,9 +15,9 @@ public class Airport {
     private String airport;
 
     @JsonCreator
-    public Airport(@JsonProperty ("country") String airport,
+    public Airport(@JsonProperty ("airport") String airport,
                    @JsonProperty ("city") String city,
-                   @JsonProperty ("airport") String country) {
+                   @JsonProperty ("country") String country) {
         this.country = country;
         this.city = city;
         this.airport = airport;

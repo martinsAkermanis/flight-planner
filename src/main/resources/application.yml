@@ -11,3 +11,7 @@ spring:
 
 flight-planner:
   store-type: database
+
+apixu:
+  api-url: https://api.apixu.com
+  api-key: 00ab253837da498b9bc150014190903&q
